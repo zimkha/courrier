@@ -1,0 +1,277 @@
+$medium-aquamarine: #66C2AD;
+
+
+/*******************************************************************/
+/***************************** select2 *****************************/
+/*******************************************************************/
+.select2-container--default .select2-selection--single
+{
+    padding: .375rem .75rem!important;
+    height: calc(2.25rem + 2px) !important;
+    border: 1px solid #ced4da !important;
+
+    .select2-selection__arrow
+    {
+        top: 4px !important;
+    }
+
+}
+
+
+.pick-image
+{
+    position: absolute;
+    margin: -5px 0px 0px 100px;
+    font-size: 20px;
+}
+
+.image-hover:hover
+{
+    opacity: 0.5;
+    box-shadow: inset 0 0 2px 1px rgba(255, 255, 255, 0.5), 0 2px 5px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/*******************************************************************/
+/************************** menu hamburger *************************/
+/*******************************************************************/
+/*menu hamburger in item categorie, sous-categorie, plat*/
+.menu , .menu-leftToRight
+{
+    -webkit-filter: url("#shadowed-goo");
+    filter: url("#shadowed-goo");
+
+
+    .hamburger
+    {
+        width: 18px;
+        height: 3px;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -9px !important;
+        margin-top: -1.5px !important;
+        background-color: $medium-aquamarine;
+        -webkit-transition: -webkit-transform 200ms;
+        transition: -webkit-transform 200ms;
+        transition: transform 200ms;
+        transition: transform 200ms, -webkit-transform 200ms;
+    }
+
+}
+
+
+.menu-item, .menu-open-button
+{
+    border:1px solid $medium-aquamarine;
+    border-radius: 100% !important;
+    width: 35px;
+    height: 35px;
+    position: absolute !important;
+
+    text-align: center;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transition: -webkit-transform ease-out 200ms !important;
+    transition: -webkit-transform ease-out 200ms !important;
+    transition: transform ease-out 200ms !important;
+    transition: transform ease-out 200ms, -webkit-transform ease-out 200ms !important;
+
+    .menu  &
+    {
+        background-color: #FFF;
+        line-height: 30px;
+    }
+}
+
+.menu-open
+{
+    display: none;
+}
+
+
+// Position des elements sous formes d'etages
+.hamburger-1
+{
+    -webkit-transform: translate3d(0, -6px, 0);
+    transform: translate3d(0, -6px, 0);
+}
+
+.hamburger-2
+{
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.hamburger-3
+{
+    -webkit-transform: translate3d(0, 6px, 0);
+    transform: translate3d(0, 6px, 0);
+}
+
+// Pour le menu normal et le menu inersé
+// On les modifie pour les mettre sous forme de croix
+.menu-open:checked + .menu-open-button .hamburger-1
+{
+    -webkit-transform: translate3d(0, 0, 0) rotate(45deg);
+    transform: translate3d(0, 0, 0) rotate(45deg);
+}
+
+.menu-open:checked + .menu-open-button .hamburger-2
+{
+    -webkit-transform: translate3d(0, 0, 0) scale(0.1, 1);
+    transform: translate3d(0, 0, 0) scale(0.1, 1);
+}
+
+.menu-open:checked + .menu-open-button .hamburger-3
+{
+    -webkit-transform: translate3d(0, 0, 0) rotate(-45deg);
+    transform: translate3d(0, 0, 0) rotate(-45deg);
+}
+
+.table th, .table td
+{
+    padding: 1.2rem 2rem !important;
+}
+
+.menu, .menu-leftToRight
+{
+    position: relative;
+    box-sizing: border-box;
+    font-size: 20px;
+    //text-align: left;
+    z-index: 1000;
+    margin-top: -17px;
+}
+
+// Les durées des animations
+.menu-item:nth-child(*)
+{
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.menu-open-button
+{
+    z-index: 2;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-transition-duration: 400ms;
+    transition-duration: 400ms;
+    -webkit-transform: scale(1.1, 1.1) translate3d(0, 0, 0);
+    transform: scale(1.1, 1.1) translate3d(0, 0, 0);
+    cursor: pointer;
+
+    &:hover
+    {
+        -webkit-transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+        transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+    }
+
+
+    // Permet de réduire la taille de l'element lors du click
+    .menu-open:checked + &
+    {
+        -webkit-transition-timing-function: linear;
+        transition-timing-function: linear;
+        -webkit-transition-duration: 100ms;
+        transition-duration: 100ms;
+        -webkit-transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+        transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+    }
+}
+
+
+/*
+.menu .menu-open:checked ~ .menu-item
+{
+    -webkit-transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.menu .menu-open:checked ~ .menu-item:nth-child(3)
+{
+    -webkit-transition-duration: 200ms;
+    transition-duration: 200ms;
+    -webkit-transform: translate3d(60px, 0, 0);
+    transform: translate3d(40px, 0, 0);
+}
+
+.menu .menu-open:checked ~ .menu-item:nth-child(4)
+{
+    -webkit-transition-duration: 300ms;
+    transition-duration: 300ms;
+    -webkit-transform: translate3d(120px, 0, 0);
+    transform: translate3d(85px, 0, 0);
+}
+
+.menu .menu-open:checked ~ .menu-item:nth-child(5)
+{
+    -webkit-transition-duration: 400ms;
+    transition-duration: 400ms;
+    -webkit-transform: translate3d(180px, 0, 0);
+    transform: translate3d(130px, 0, 0);
+}
+
+
+.menu .menu-open:checked ~ .menu-item:nth-child(6)
+{
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    -webkit-transform: translate3d(180px, 0, 0);
+    transform: translate3d(130px, 0, 0);
+}
+
+.menu .menu-open:checked ~ .menu-item:nth-child(7)
+{
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    -webkit-transform: translate3d(180px, 0, 0);
+    transform: translate3d(130px, 0, 0);
+}*/
+
+
+
+// Pour les éléments du menu inverse, on change juste leur position
+.menu-leftToRight .menu-open:checked ~ .menu-item
+{
+    &:nth-child(3)
+    {
+        -webkit-transition-duration: 200ms;
+        transition-duration: 200ms;
+        -webkit-transform: translate3d(-36px, 0, 0);
+        transform: translate3d(-36px, 0, 0);
+    }
+
+    &:nth-child(4)
+    {
+        -webkit-transition-duration: 300ms !important;
+        transition-duration: 300ms !important;
+        -webkit-transform: translate3d(-73px, 0, 0) !important;
+        transform: translate3d(-73px, 0, 0) !important;
+    }
+
+    &:nth-child(5)
+    {
+        -webkit-transition-duration: 400ms;
+        transition-duration: 400ms;
+        -webkit-transform: translate3d(-110px, 0, 0);
+        transform: translate3d(-110px, 0, 0);
+    }
+
+    &:nth-child(6)
+    {
+        -webkit-transition-duration: 500ms;
+        transition-duration: 500ms;
+        -webkit-transform: translate3d(-147px, 0, 0);
+        transform: translate3d(-147px, 0, 0);
+    }
+
+    &:nth-child(7)
+    {
+        -webkit-transition-duration: 500ms;
+        transition-duration: 500ms;
+        -webkit-transform: translate3d(-183px, 0, 0);
+        transform: translate3d(-183px, 0, 0);
+    }
+}
