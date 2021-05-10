@@ -54,7 +54,7 @@
                 <footer class="fixed-footer bg-white fixed-bottom">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                          <span>Copyright &copy; Khazim Ndiaye Développeur  2021</span>
+                          <span>Copyright &copy; by 3S 2021 </span>
                         </div>
                     </div>
                 </footer>

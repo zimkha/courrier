@@ -1,8 +1,8 @@
  <?php
 
 use Illuminate\Database\Seeder;
-use App\TypeRemarque;
-use App\UniteMesure;
+use App\ServiceGauche;
+use App\ServiceDroite;
 class DatabaseTableSeeder extends Seeder
 {
     /**
@@ -12,32 +12,54 @@ class DatabaseTableSeeder extends Seeder
      */
     public function run()
     {
-        $type_remarques = [
-            array('name' => "Ajout sur le projet"),
-            array('name' => "Modification du projet"),
-            array('name' => 'Suppression sur le plan' )
+        $droite = [
+            array('name' => "DA"),
+            array('name' => "Conseiller"),
+            array('name' => 'Assistante Particulier' ),
+            array('name' => 'Coord USSEIN' ),
+            array('name' => 'Coord Particulier' ),
+            array('name' => 'Assistante UAM' ),
+            array('name' => 'Cellule Com' ),
+            array('name' => 'Cellule Audit et Controler' ),
+            array('name' => 'Cellule Suivi' ),
+            array('name' => 'Cellule Juridique' ),
+            array('name' => 'Cellule Passation des Marches' ),
+            array('name' => 'Cellule Cooperation' ),
+            array('name' => 'Unite de Securite' ),
+            array('name' => 'Charge de mission' ),
+            array('name' => 'BAD' ),
+            array('name' => 'BC' ),
         ];
 
-        foreach ($type_remarques as $type) {
-            $item = TypeRemarque::where('name', 'like', '%'.$type['name'].'%');
+        $gauche = [
+          array('name' => "CSA"),
+          array('name' => "AC"),
+          array('name' => 'DCH' ),
+          array('name' => 'DMG' ),
+          array('name' => 'DSAS' ),
+          array('name' => 'DRU' ),
+          array('name' => 'DCU' ),
+          array('name' => 'DACS' ),
+          array('name' => 'DE' ),
+          array('name' => 'DI' ),
+          array('name' => 'DST' ),
+          array('name' => 'DB' ),
+          array('name' => 'CPM' ),
+          array('name' => 'CCOOP' ),
+          array('name' => 'BAP' ),
+      ];
+        foreach ($gauche as $type) {
+            $item = ServiceGauche::where('name', 'like', '%'.$type['name'].'%');
             if (!isset($item)) {
-                TypeRemarque::create(['name' => $type['name']]);
+              ServiceGauche::create(['name' => $type['name']]);
             }
         }
-
-        $unite_mesures = [
-            array('name' =>'mettre-carre', 'slug' => 'm2', 'display_name' => 'Mesure en mettre carré'),
-            array('name' =>'hectare', 'slug' => 'hct', 'display_name' => 'Mesure en hectare'),
-
-        ];
-        foreach ($unite_mesures as $mesure) {
-            $item = UniteMesure::where('name', $mesure['name'])->first();
-            if (!isset($item)) {
-                UniteMesure::create(
-               [ 'name' => $mesure['name'], 
-               'slug' => $mesure['slug'],
-               'display_name' => $mesure['display_name']]);
-            }
-        }
+        foreach ($gauche as $type) {
+          $item = ServiceDroite::where('name', 'like', '%'.$type['name'].'%');
+          if (!isset($item)) {
+            ServiceDroite::create(['name' => $type['name']]);
+          }
+      }
+  
     }
 }

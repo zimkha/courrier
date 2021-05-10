@@ -166,11 +166,14 @@ td{
   padding: 10px;
   font-size: 14px;
 }
-
+#watermark { position: fixed; bottom: 0px; right: 0px; width: 200px; height: 200px; opacity: .1; }
     </style>
+
 
 </head>
 <body class="body-1">
+<div id="watermark"><img  src="assets/images/coud.jpeg" height="100%" width="100%"></div>
+  <img style="width:80px;height: 80px;" src="assets/images/coud.jpeg">
   <table  width="100 %">
     <tr>
       <td>

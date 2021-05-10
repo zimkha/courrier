@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
     {
         $users = array();
         array_push($users,array("name" => "root" , "email" => "root@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "root"));
-        array_push($users,array("name" => "root" , "email" => "root@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "root"));
+        array_push($users,array("name" => "mbacke" , "email" => "mbacke@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "root"));
        
 
         foreach ($users as $user)
