@@ -1,12 +1,11 @@
 /node_modules
-/public/*
-/public/hot
-/public/storage/
+
+
 /public/node_modules
 /public/package-lock.json
 /public/package.json
 /storage/
-/public/uploads/*
+*
 /vendor
 .env
 .env.backup

@@ -175,9 +175,12 @@ td{
 <div id="watermark"><img  src="assets/images/coud.jpeg" height="100%" width="100%"></div>
   <img style="width:80px;height: 80px;" src="assets/images/coud.jpeg">
   <table  width="100 %">
+   <tr >
+     <td> Fiche de ventilation du courrier</td>
+  </tr>
     <tr>
       <td>
-        REFERENCE   : {{ $courrier["reference"]}}
+        REFERENCES   : {{ $courrier["reference"]}}
         <br> <br> <br>
         EXPEDITEUUR : {{ $courrier["expediteur"]}}
       </td>
