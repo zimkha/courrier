@@ -64,13 +64,12 @@ class CourrierController extends Controller
                     array_push($tab, $item_service);
                   }
                 
-               
                 $item->save();
                 foreach($tab as $el) {
                   $el->courrier_id = $item->id;
                   $el->save();
                 }
-                return  Outil::redirectgraphql($this->queryName, "numero:{$item->id}", Outil::$queries[$this->queryName]);            
+                return  Outil::redirectgraphql($this->queryName, "id:{$item->id}", Outil::$queries[$this->queryName]);            
               }
               throw new \Exception($errors);
               
