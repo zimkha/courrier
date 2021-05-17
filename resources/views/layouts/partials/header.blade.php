@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 
-    <title>My Courrier</title>
+    <title>SYGECO</title>
 
     <!-- Custom fonts for this template-->
     <link href="" rel="stylesheet" type="text/css">

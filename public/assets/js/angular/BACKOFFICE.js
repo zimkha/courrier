@@ -269,7 +269,7 @@ app.controller('BackEndCtl',function (Init,$location,$scope,$filter, $log,$q,$ro
 
             "roles"                         : ["id,name,guard_name,permissions{id,name,display_name,guard_name}", ""],
 
-            "courriers" : ["id,numero,reference,expediteur,date_courrier,objet,date_arrive,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
+            "courriers" : ["id,numero,reference,expediteur,autre_instruction,date_courrier,objet,date_arrive,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
 
         };
 
@@ -1066,6 +1066,7 @@ $scope.getAllDashboard = function()
           $('#date_courrier' ).val('')
           $('#expediteur' ).val('')
           $('#reference' ).val('')
+          $('#autre_instruction' ).val('')
         }
       
       
@@ -1467,33 +1468,7 @@ $scope.getAllDashboard = function()
                         console.log("ok");
                         $scope.pageChanged("plan");
                     }
-                    // else if (type.indexOf('courrier')!==-1)
-                    // {
-
-                    //    // getObj = data['data'][type + 's'][0];
-                    //    console.log("je suis la")
-                    //     if (!send_dataObj.id)
-                    //     {
-                    //         $scope.plans.push(getObj);
-                    //         $scope.pageChanged('plan');
-                    //         $scope.produitsInTable = [];
-                            
-                    //     }
-                    //     else
-                    //     {
-                    //         $scope.pageChanged("plan");
-                    //         $.each($scope.plans, function (keyItem, oneItem)
-                    //         {
-                    //             if (oneItem.id===getObj.id)
-                    //             {
-                    //                 $scope.plans[keyItem] = getObj;
-                    //                 return false;
-                    //             }
-                    //         });
-                    //         $scope.produitsInTable = [];
-                    //     }
-
-                    // }
+                
                     else if (type.indexOf('courrier')!==-1)
                     {
 
@@ -2307,6 +2282,7 @@ $scope.getAllDashboard = function()
               $('#date_courrier' ).val(item.date_courrier)
               $('#expediteur' ).val(item.expediteur)
               $('#reference' ).val(item.reference)
+              $('#autre_instruction').val(item.autre_instruction)
               $scope.dataInTableService = [];
               $scope.tableName = [];
               var table_name = [];
