@@ -37,6 +37,8 @@ class CourrierPaginatedQuery extends Query
           'created_at_fr'          => [ 'type' => Type::string()],
           'updated_at'             => [ 'type' => Type::string()],
           'updated_at_fr'          => [ 'type' => Type::string()],
+          'created_at_start'       => ['type' => Type::string()],
+          'created_at_end'         => ['type' => Type::string()],
           'page'                   => ['type' => Type::int()],
           'count'                  => ['type' => Type::int()]
         ];
@@ -52,7 +54,7 @@ class CourrierPaginatedQuery extends Query
       }
       if (isset($args['reference']))
       {
-         $query = $query->where('reference', $args['reference']);
+         $query = $query->where('reference', 'like' , '%' .$args['reference'].'%');
       }
       if (isset($args['date_arrive']))
       {
@@ -64,12 +66,39 @@ class CourrierPaginatedQuery extends Query
       }
       if (isset($args['expediteur']))
       {
-         $query = $query->where('expediteur', $args['expediteur']);
+         $query = $query->where('expediteur',  'like' , '%'.$args['expediteur'].'%');
       }
       if (isset($args['numero']))
       {
-         $query = $query->where('numero', $args['numero']);
+         $query = $query->where('numero', 'like', '%'.$args['numero'].'%');
       }
+      if (isset($args['created_at_start']) && isset($args['created_at_end']))
+      {
+          $from = $args['created_at_start'];
+          $to = $args['created_at_end'];
+
+          // Eventuellement la date fr
+          $from = (strpos($from, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $from)->format('Y-m-d') : $from;
+          $to = (strpos($to, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $to)->format('Y-m-d') : $to;
+
+          $from = date($from.' 00:00:00');
+          $to = date($to.' 23:59:59');
+          $query->whereBetween('created_at', array($from, $to));
+      }
+      if(isset($args['date_start']) && isset($args['date_end']))
+      {
+          $from = $args['date_start'];
+          $to = $args['date_end'];
+
+          // Eventuellement la date fr
+          $from = (strpos($from, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $from)->format('Y-m-d') : $from;
+          $to = (strpos($to, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $to)->format('Y-m-d') : $to;
+
+          $from = date($from.' 00:00:00');
+          $to = date($to.' 23:59:59');
+         $query =  $query->whereBetween('created_at', array($from, $to));
+      }
+
      
        $count = Arr::get($args, 'count', 10);
        $page  = Arr::get($args, 'page', 1);

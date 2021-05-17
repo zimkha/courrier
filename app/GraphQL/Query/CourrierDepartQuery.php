@@ -2,21 +2,21 @@
 
 namespace App\GraphQL\Query;
 
-use App\Courrier;
+use App\CourrierDepart;
 use Carbon\Carbon;
 use GraphQL;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 
-class CourrierQuery extends Query
+class CourrierDepartQuery extends Query
 {
     protected $attributes = [
-        'name' => 'courriers'
+        'name' => 'courrierdeparts'
     ];
 
     public function type(): Type
     {
-      return Type::listOf(GraphQL::type('Courrier'));
+      return Type::listOf(GraphQL::type('Courrierdepart'));
     }
 
     public function args(): array
@@ -35,14 +35,12 @@ class CourrierQuery extends Query
             'created_at_fr'          => [ 'type' => Type::string()],
             'updated_at'             => [ 'type' => Type::string()],
             'updated_at_fr'          => [ 'type' => Type::string()],
-            'created_at_start'       => ['type' => Type::string()],
-            'created_at_end'         => ['type' => Type::string()],
         ];
     }
     public function resolve($root, $args)
     {
       
-       $query = Courrier::query();
+       $query = CourrierDepart::query();
       
        if (isset($args['id']))
        {
@@ -50,7 +48,7 @@ class CourrierQuery extends Query
        }
        if (isset($args['reference']))
        {
-          $query = $query->where('reference', $args['reference']);
+          $query = $query->where('reference', 'like', '%'.$args['name'].'%');
        }
        if (isset($args['date_arrive']))
        {
@@ -62,42 +60,15 @@ class CourrierQuery extends Query
        }
        if (isset($args['expediteur']))
        {
-          $query = $query->where('expediteur', $args['expediteur']);
+          $query = $query->where('expediteur', 'like', '%'.$args['expediteur'].'%');
        }
        if (isset($args['numero']))
        {
-          $query = $query->where('numero', $args['numero']);
+          $query = $query->where('numero',  'like', '%'.$args['numero'].'%');
        }
-       if (isset($args['created_at_start']) && isset($args['created_at_end']))
-       {
-           $from = $args['created_at_start'];
-           $to = $args['created_at_end'];
-
-           // Eventuellement la date fr
-           $from = (strpos($from, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $from)->format('Y-m-d') : $from;
-           $to = (strpos($to, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $to)->format('Y-m-d') : $to;
-
-           $from = date($from.' 00:00:00');
-           $to = date($to.' 23:59:59');
-           $query->whereBetween('created_at', array($from, $to));
-       }
-       if(isset($args['date_start']) && isset($args['date_end']))
-       {
-           $from = $args['date_start'];
-           $to = $args['date_end'];
-
-           // Eventuellement la date fr
-           $from = (strpos($from, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $from)->format('Y-m-d') : $from;
-           $to = (strpos($to, '/') !== false) ? Carbon::createFromFormat('d/m/Y', $to)->format('Y-m-d') : $to;
-
-           $from = date($from.' 00:00:00');
-           $to = date($to.' 23:59:59');
-           $query->whereBetween('created_at', array($from, $to));
-       }
-
       
        $query = $query->get();
-       return $query->map(function (Courrier $item)
+       return $query->map(function (CourrierDepart $item)
        {
            return 
            [
@@ -110,7 +81,6 @@ class CourrierQuery extends Query
             'date_arrive'              => $item->date_arrive,
             'autre_instruction'        => $item->autre_instruction,
             'created_at'               => $item->created_at,
-            'services'                 => $item->services
         ];
       });
     }

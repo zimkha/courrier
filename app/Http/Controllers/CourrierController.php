@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -16,62 +15,62 @@ class CourrierController extends Controller
     public function save(Request $request) {
         return DB::transaction(function() use($request) {
           try {
-           // dd($request->all());
+           //dd($request->all());
               $tab = [];
               $errors = null;
               $item  = new Courrier();
               if(isset($request->id)) {
-                $item = Courrier::find($request->id);
+                $item = Courrier::find((int) $request->id);
                 Service::where('courrier_id', $request->id)->delete();
                 Service::where('courrier_id', $request->id)->forceDelete();
               }
-              if(empty($request->reference)) {
-                $errors = "Veuillez renseigner la référence";
-              }
-              if(empty($request->date_courrier)) {
-                $errors = "Veuillez renseigner la date du courrier";
-              }
-              if(empty($request->date_arrive)) {
-                $errors = "Veuillez renseigner la date d'arrivée";
-              }
-              if(empty($request->expediteur)) {
-                $errors = "Veuillez renseigner l'éxpéditeur";
-              }
-              if(empty($request->numero)) {
-                $errors = "Veuillez renseigner le numéro du courrier";
-              }
-             
-              if(!$errors) {
-                $item->reference = $request->reference;
-                $item->date_courrier = $request->date_courrier." 00:00:00";
-                $item->numero = $request->numero;
-                $item->objet = $request->objet;
-                $item->date_arrive = $request->date_arrive." 00:00:00";
-                $item->autre_instruction = $request->autre_instruction;
-               
-                $item->expediteur = $request->expediteur;
-                
-                 $services = json_decode($request->services);
-                // dd($services);
-                foreach($services as $service) {
-                 
-                  $item_service = new Service();
-                  $item_service->service_gauche_id  =  $service->service_gauche ? (int) $service->service_gauche : null;
-                
-                  $item_service->service = $service->service;
-                  $item_service->service_droite_id =  $service->service_droite ? (int) $service->service_droite : null;
-                 
-                 array_push($tab, $item_service);
-                }
+
+              //dd($item);
               
+              $services = json_decode($request->services);
+              if($services == [] || sizeof($services) == 0 ) 
+              {
+               $errors = "Le tableau de courrier ne doit pas être vide";
+              }
+              if(isset($request->date_courrier) && $request->date_courrier == "NaN-NaN-NaN" )
+              {
+                $errors = "Veuillez renseigne la date du courrier SVP";
+              }
+              if(isset($request->date_arrive) && $request->date_arrive == "NaN-NaN-NaN" )
+              {
+                $errors = "Veuillez renseigne la date d'arrivée du courrier SVP";
+              }
+              if(!$errors) {
+                // $item->date_courrier = (isset($request->date_courrier )&& $request->date_courrier != "Nan Nan Nan") ? $request->date_courrier." 00:00:00": null;
+                // $item->date_arrive = (isset($request->date_arrive) && $request->date_arrive != "Nan Nan Nan" ) ? $request->date_arrive." 00:00:00": '';
+                if(isset($request->date_courrier) && $request->date_courrier!= "NaN-NaN-NaN" )
+                    $item->date_courrier = $request->date_courrier;
+                if(isset( $request->date_arrive) && $request->date_arrive!= "NaN-NaN-NaN")    
+                   $item->date_arrive  =  $request->date_arrive; 
+                $item->expediteur = (isset($request->expediteur)) ? $request->expediteur : null;
+                $item->numero = (isset($request->numero)) ? $request->numero: null;
+                $item->reference = (isset($request->reference)) ? $request->reference: null;
+                $item->objet = (isset($request->objet)) ? $request->objet: null;
+                $item->autre_instruction = (isset($request->autre_instruction)) ? $request->autre_instruction: null;
+                //dd($item);
+             
+                // dd($services);
+               
+                  foreach($services as $service) {
+                    $item_service = new Service();
+                    $item_service->service_gauche_id  =  $service->service_gauche ? (int) $service->service_gauche : null;
+                    $item_service->service = $service->service;
+                    $item_service->service_droite_id =  $service->service_droite ? (int) $service->service_droite : null;                 
+                    array_push($tab, $item_service);
+                  }
+                
+               
                 $item->save();
                 foreach($tab as $el) {
-
                   $el->courrier_id = $item->id;
                   $el->save();
                 }
-                return  Outil::redirectgraphql($this->queryName, "numero:{$item->id}", Outil::$queries[$this->queryName]);
-            
+                return  Outil::redirectgraphql($this->queryName, "numero:{$item->id}", Outil::$queries[$this->queryName]);            
               }
               throw new \Exception($errors);
               

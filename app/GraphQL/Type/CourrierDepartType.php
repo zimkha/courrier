@@ -3,32 +3,38 @@
 namespace App\GraphQL\Type;
 
 use GraphQL;
-
+use App\CourrierDepart;
 use Carbon\Carbon;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
-class DeviseEstimeType extends GraphQLType
+
+class CourrierDepartType extends GraphQLType
 {
     protected $attributes = [
-        'name' => 'Deviseestime',
+        'name' => 'Courrierdepart',
     ];
 
     public function fields(): array
     {
         return [
 
-            'id'                     => [ 'type' => Type::id()],
-            'chantier_id'            => [ 'type' => Type::int()],
-            'etat'                   => [ 'type' => Type::int()],
-            'fichier'                => [ 'type' => Type::string(),],
-            'chantier'               => [ 'type' => GraphQL::type('Chantier')], 
-            'created_at'             => [ 'type' => Type::string()],
-            'created_at_fr'          => [ 'type' => Type::string()],
-            'updated_at'             => [ 'type' => Type::string()],
-            'updated_at_fr'          => [ 'type' => Type::string()],
+          'id'                     => [ 'type' => Type::int()],
+          'reference'              => [ 'type' => Type::string()],
+          'date_courrier'          => [ 'type' => Type::string()],
+          'objet'                  => [ 'type' => Type::string()],
+          'date_arrive'            => [ 'type' => Type::string()],
+          'autre_instruction'      => [ 'type' => Type::string()],
+          'expediteur'             => [ 'type' => Type::string(),],
+          'numero'                 => [ 'type' => Type::int(),],
+          'created_at'             => [ 'type' => Type::string()],
+          'created_at_fr'          => [ 'type' => Type::string()],
+          'updated_at'             => [ 'type' => Type::string()],
+          'updated_at_fr'          => [ 'type' => Type::string()],
                      
         ];
     }
+
+  
     protected function resolveCreatedAtField($root, $args)
     {
         if (!isset($root['created_at']))
@@ -41,6 +47,7 @@ class DeviseEstimeType extends GraphQLType
         }
         return $date_at;
     }
+   
     protected function resolveUpdatedAtField($root, $args)
     {
         if (!isset($root['updated_at']))

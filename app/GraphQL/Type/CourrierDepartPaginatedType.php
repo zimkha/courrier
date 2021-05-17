@@ -6,10 +6,10 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Illuminate\Support\Arr;
 
-class MessageSendPaginatedType extends  GraphQLType
+class CourrierDepartPaginatedType extends  GraphQLType
 {
     protected $attributes = [
-        'name'  => 'messagesendpaginated'
+        'name'  => 'courrierdepartpaginated'
     ];
 
     public function fields(): array 
@@ -26,7 +26,7 @@ class MessageSendPaginatedType extends  GraphQLType
                     ],
                 'data' =>
                     [
-                        'type' => Type::listOf(GraphQL::type('Messagesend')),
+                        'type' => Type::listOf(GraphQL::type('Courrierdepart')),
                         'resolve' => function ($root)
                         {
                             return $root;

@@ -442,7 +442,8 @@ $scope.getAllDashboard = function()
                 + ($('#numero_courrier').val() ? ',numero:' + $('#numero_courrier').val() : "" )
                 + ($('#reference_courrier').val() ? ',reference:' + '"' + $('#reference_courrier').val() + '"' : "" )
                 + ($('#expediteur_courrier').val() ? ',expediteur:' + '"' + $('#expediteur_courrier').val() + '"' : "" )
-
+                + ($('#created_at_start_listcourrier').val() ? ',created_at_start:' + '"' + $('#created_at_start_listcourrier').val() + '"' : "" )
+                + ($('#created_at_end_listcourrier').val() ? ',created_at_end:' + '"' + $('#created_at_end_listcourrier').val() + '"' : "" )
                 +')';
             $scope.requeteCourrier = ""
 
@@ -1252,41 +1253,41 @@ $scope.getAllDashboard = function()
      
       
         else if( type == 'courrier' || type == 'courriers') {
-          if($("#reference").val() == '') {
-            iziToast.error({
-              title: "",
-              message: "Vous devez renseigne la référence",
-              position: 'topRight'
-          });
-          }
-          if($("#reference").val() == '') {
-            iziToast.error({
-              title: "",
-              message: "Veuilléz renseigner la référence",
-              position: 'topRight'
-          });
-          }
-          if($("#objet").val() == '') {
-            iziToast.error({
-              title: "",
-              message: "Veuilléz renseigner l'objet",
-              position: 'topRight'
-          });
-          }
-          if($("#expediteur").val() == '') {
-            iziToast.error({
-              title: "",
-              message: "Veuilléz renseigner l'expediteur",
-              position: 'topRight'
-          });
-          }
-          if($("#numero").val() == '') {
-            iziToast.error({
-              title: "",
-              message: "Veuillez renseigner le numéro",
-              position: 'topRight'
-          });
-          }
+        //   if($("#reference").val() == '') {
+        //     iziToast.error({
+        //       title: "",
+        //       message: "Vous devez renseigne la référence",
+        //       position: 'topRight'
+        //   });
+        //   }
+        //   if($("#reference").val() == '') {
+        //     iziToast.error({
+        //       title: "",
+        //       message: "Veuilléz renseigner la référence",
+        //       position: 'topRight'
+        //   });
+        //   }
+        //   if($("#objet").val() == '') {
+        //     iziToast.error({
+        //       title: "",
+        //       message: "Veuilléz renseigner l'objet",
+        //       position: 'topRight'
+        //   });
+        //   }
+        //   if($("#expediteur").val() == '') {
+        //     iziToast.error({
+        //       title: "",
+        //       message: "Veuilléz renseigner l'expediteur",
+        //       position: 'topRight'
+        //   });
+        //   }
+        //   if($("#numero").val() == '') {
+        //     iziToast.error({
+        //       title: "",
+        //       message: "Veuillez renseigner le numéro",
+        //       position: 'topRight'
+        //   });
+        //   }
           if($("#date_courrier").val() == '') {
             iziToast.error({
               title: "",
@@ -1297,20 +1298,39 @@ $scope.getAllDashboard = function()
           if($("#date_arrive").val() == '') {
             iziToast.error({
               title: "",
-              message: "Veuillez renseigner la date arrivée",
+              message: "Veuillez renseigner la date d'arrivée du courrier",
               position: 'topRight'
           });
           }
-          let date_arrive = $("#date_arrive").val();
-          date_arrive = new Date(date_arrive);
-           let month =  date_arrive.getMonth() + 1 ;
-            let arrive_date = date_arrive.getFullYear() + '-' + month+'-' + date_arrive.getDate();
-          let date_courrier = $("#date_courrier").val();
-          date_courrier = new Date(date_courrier);
-          let courrier_date = date_courrier.getFullYear() + '-' + month +'-' + date_courrier.getDate();
-
+        
          
+          let arrive_date = null;
+          let courrier_date = null;
+          let date_arrive = $("#date_arrive").val();
+             if(date_arrive != null) {
+                
+                date_arrive = new Date(date_arrive);
+                let month_arr =  date_arrive.getMonth() + 1 ;
+                if(month_arr < 10 ) month_arr = "0" + month_arr;
+                let jr_ar = date_arrive.getDate();
+                if(jr_ar < 10 ) jr_ar = "0" + jr_ar;
+                 arrive_date = date_arrive.getFullYear() + '-' + month_arr +'-' +jr_ar;
+             }
 
+          let date_courrier = $("#date_courrier").val();
+          if(date_courrier != null) {
+            date_courrier = new Date(date_courrier);
+            let month =  date_courrier.getMonth() + 1 ;
+            let jr  = date_courrier.getDate();
+            if(jr < 10) {
+                jr = "0"+ jr;
+            }
+            if(month < 10) {
+                month = "0"+month;
+            }
+             courrier_date = date_courrier.getFullYear() + '-' + month +'-' + jr;
+          }
+  
           send_data.append('reference', $("#reference").val());
           send_data.append('objet',     $("#objet").val());
           send_data.append('expediteur', $("#expediteur").val());
@@ -1615,11 +1635,13 @@ $scope.getAllDashboard = function()
         let champs = '';
         $scope.servicedroites.forEach(el => {
             if(service_droite ==  el.id) {
+                console.log("les elements de droites", el.id, service_droite, el.name)
               d = el.name;
             }
         });
         $scope.servicegauches.forEach(el => {
           if(service_gauche ==  el.id) {
+            console.log("les elements de gauche", el.id, service_gauche, el.name)
             g = el.name;
           }
       });
@@ -1640,7 +1662,7 @@ $scope.getAllDashboard = function()
         $("#select1").val('');
         $("#select2").val('');
         $("#service").val('');
-        console.log("le tablea =>",  $scope.tableName)
+        console.log("le tablea =>",  $scope.dataInTableService)
 
     } else if (action == 'delete') {
         $.each($scope.tableName, function (keyItem, oneItem) {
@@ -1650,6 +1672,15 @@ $scope.getAllDashboard = function()
                 return false;
             }
         });
+        $.each($scope.dataInTableService, function (keyItem, oneItem) {
+            console.log(keyItem, oneItem)
+              if (oneItem.id == selectedItem.id) {
+                  $scope.dataInTableService.splice(keyItem, 1);
+                  return false;
+              }
+          });
+        console.log("Un element delete =>",  $scope.dataInTableService)
+
     }
 };
   $scope.actionSurCourrier = function(action, selectedItem = null ) {
@@ -2276,7 +2307,6 @@ $scope.getAllDashboard = function()
               $('#date_courrier' ).val(item.date_courrier)
               $('#expediteur' ).val(item.expediteur)
               $('#reference' ).val(item.reference)
-              var list_service = [];
               $scope.dataInTableService = [];
               $scope.tableName = [];
               var table_name = [];
