@@ -30,6 +30,7 @@ class CourrierQuery extends Query
             'date_arrive'            => [ 'type' => Type::string()],
             'autre_instruction'      => [ 'type' => Type::string()],
             'expediteur'             => [ 'type' => Type::string(),],
+            'status'                 => [ 'type' => Type::int(),],
             'numero'                 => [ 'type' => Type::int(),],
             'created_at'             => [ 'type' => Type::string()],
             'created_at_fr'          => [ 'type' => Type::string()],
@@ -63,6 +64,10 @@ class CourrierQuery extends Query
        if (isset($args['expediteur']))
        {
           $query = $query->where('expediteur', $args['expediteur']);
+       }
+       if (isset($args['status']))
+       {
+          $query = $query->where('status', $args['status']);
        }
        if (isset($args['numero']))
        {
@@ -104,6 +109,7 @@ class CourrierQuery extends Query
             'id'                       => $item->id,
             'reference'                => $item->reference,
             'numero'                   => $item->numero,
+            'status'                   => $item->status,
             'expediteur'               => $item->expediteur,
             'date_courrier'            => $item->date_courrier,
             'objet'                    => $item->objet,

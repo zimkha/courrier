@@ -36,7 +36,7 @@ class Outil extends Model
     }
 
     public static $queries = array(
-        "courriers" => "id,numero,reference,expediteur,date_courrier,date_arrive,objet,autre_instruction,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}"       
+        "courriers" => "id,numero,reference,expediteur,date_courrier,date_arrive,objet,autre_instruction,status_title,status,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}"       
     );
 
     public static function formatdate()

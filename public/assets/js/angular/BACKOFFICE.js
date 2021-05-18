@@ -212,6 +212,25 @@ app.factory('Init',function ($http, $q)
                 });
                 return deferred.promise;
             },
+            ChangerStatusCourrier:function(data)
+            {
+                var deferred=$q.defer();
+                $http({
+                    method: 'POST',
+                    url: BASE_URL + 'change-status',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data:data
+                }).then(function successCallback(response) {
+                    factory.data=response['data'];
+                    deferred.resolve(factory.data);
+                }, function errorCallback(error) {
+                    console.log('erreur serveur', error);
+                    deferred.reject(msg_erreur);
+                });
+                return deferred.promise;
+            },
 
             ajaxGet: function()
             {
@@ -269,7 +288,7 @@ app.controller('BackEndCtl',function (Init,$location,$scope,$filter, $log,$q,$ro
 
             "roles"                         : ["id,name,guard_name,permissions{id,name,display_name,guard_name}", ""],
 
-            "courriers" : ["id,numero,reference,expediteur,autre_instruction,date_courrier,objet,date_arrive,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
+            "courriers" : ["id,numero,reference,expediteur,autre_instruction,date_courrier,objet,date_arrive,status_title,status,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
 
         };
 
@@ -681,7 +700,73 @@ $scope.getAllDashboard = function()
     $scope.panier = [];
     $scope.details_monnaie = [];
     $scope.panierAffile = [];
+
+    $scope.ChangerStatusCourrier = {'id':'', 'statut':'', 'type':'', 'title':''};
+   $scope.showModalPassToOne = function(event , obj= null, title = null)
+   {
     
+        let id = 0;
+        id = obj.id;
+        $scope.ChangerStatusCourrier.id = obj       
+        $scope.ChangerStatusCourrier.title = title;
+        $scope.emptyForm('chstat');
+        console.log("les donners",  $scope.ChangerStatusCourrier.title,  $scope.ChangerStatusCourrier.id)
+        $("#modal_changeStatus").modal('show');
+   };
+   $scope.ChangerStatusCourrier = {'id':'', 'statut':'', 'type':'', 'title':''};
+   $scope.showModalPassToTwo = function(event,type, statut, obj= null, title = null)
+   {
+    let id = 0;
+    id = obj.id;
+    $scope.ChangerStatusCourrier.id = obj       
+    $scope.ChangerStatusCourrier.title = title;
+    $scope.emptyForm('chstat');
+    console.log("les donners",  $scope.ChangerStatusCourrier.title,  $scope.ChangerStatusCourrier.id)
+    $("#modal_changeStatus").modal('show');
+   };
+   $scope.ChangerStatusCourrier = function(e, idItem)
+   {
+       var form = $('#modal_changeStatus');
+       var send_data = {'id':idItem};
+       form.parent().parent().blockUI_start();
+       Init.ChangerStatusCourrier(send_data).then(function(data)
+       {
+           console.log(data, 'donnes');
+           getCommande = data;
+           console.log(getCommande);
+           form.parent().parent().blockUI_stop();
+           if (data.data!=null && !data.errors)
+           {
+               if ($scope.courrierview )
+               {
+                   $scope.commandeview = getCommande;
+               }
+               $scope.pageChanged('courrier');
+               iziToast.success({
+                   title: ('Status Modifier'),
+                   message: "succès",
+                   position: 'topRight'
+               });
+               $("#modal_changeStatus").modal('hide');
+           }
+           else
+           {
+               iziToast.error({
+                   title: "",
+                   message: '<span class="h4">' + data.errors + '</span>',
+                   position: 'topRight'
+               });
+           }
+       }, function (msg)
+       {
+           form.parent().parent().blockUI_stop();
+           iziToast.error({
+               message: '<span class="h4">' + msg + '</span>',
+               position: 'topRight'
+           });
+       });
+       console.log('current courrier id', send_data);
+   };
 
     $scope.refreshSelect2 = function()
     {
@@ -1015,7 +1100,14 @@ $scope.getAllDashboard = function()
 
     //voir un détail de médicament
 
-
+    $scope.livreCommande = {'id':'', 'title':''};
+    $scope.showModalStat = function(event, idCommande,title = null)
+    {
+        $scope.livreCommande.id = idCommande;
+        $scope.livreCommande.title = title;
+        emptyform('livreCommande');
+        $("#modal_addlivreCommande").modal('show');
+    };
 
     // Permet d'afficher le formulaire
     $scope.showModalAdd = function (type, fromUpdate=false, assistedListe=false, ObjPassed = null)
@@ -1093,17 +1185,17 @@ $scope.getAllDashboard = function()
 
   
 
-    $scope.showModalStatut = function(event,type, statut, obj= null, title = null)
+    $scope.showModalStatus = function(event,type, statut, obj= null, title = null)
     {
         console.log(obj);
-        var id = 0;
+        let id = 0;
         id = obj.id;
         $scope.chstat.id = id;
         $scope.chstat.statut = statut;
         $scope.chstat.type = type;
         $scope.chstat.title = title;
         $scope.emptyForm('chstat');
-        $("#modal_changeStattus").modal('show');
+        $("#modal_changeStatus").modal('show');
     };
     $scope.showModalChangeStatut  = function(event,type, statut, obj= null, title = null)
     {
@@ -1119,27 +1211,19 @@ $scope.getAllDashboard = function()
     };
     $scope.showModalconfirme = function(event, title = null)
     {
-        // var id = 0;
-        // id = obj.id;
-        // $scope.chstat.id = id;
-        // $scope.chstat.statut = statut;
-        // $scope.chstat.type = type;
         $scope.chstat.title = title;
-
         $scope.emptyForm('chstat');
         $("#modal_addchstat").modal('show');
     };
 
 
-    //TODO: définir l\'etat d'une reservation
-    // implémenter toutes les variations du formulaire
 
     $scope.changeStatut = function(e, type)
     {
         alert("nieuwal fii");
         var form = $('#form_addchstat');
 
-        var send_data = {id: $scope.chstat.id, etat:$scope.chstat.statut};
+        var send_data = {id: $scope.chstat.id, status:$scope.chstat.statut};
         console.log("dadtdtadta ici", send_data)
        // form.parent().parent().blockUI_start();
         Init.changeStatut(type, send_data).then(function(data)
@@ -1147,32 +1231,33 @@ $scope.getAllDashboard = function()
          //   form.parent().parent().blockUI_stop();
             if (data.data!=null && !data.errors_debug)
             {
-                if (type.indexOf('user')!==-1)
+               
+                if (type.indexOf('courrier')!==-1 || type.indexOf('/')!==-1 ) 
                 {
-                    var found = false;
-                    $.each($scope.users, function (keyItem, valueItem)
-                    {
-                        if (valueItem.id==send_data.id)
-                        {
-                            $scope.users[keyItem].active = $scope.chstat.statut==0 ? false : true;
-                            found = true;
-                        }
-                        return !found;
-                    });
+                  console.log( "ok ");
+                  $.each($scope.courriers, function (keyItem, valueItem)
+                  {
+                      if (valueItem.id==send_data.id)
+                      {
+                          $scope.courriers[keyItem].status = $scope.chstat.statut==0 ? 1 : 2;
+                          found = true;
+                      }
+                      return !found;
+                  });
                 }
-                if (type.indexOf('retour')!==-1)
-                {
-                    var found = false;
-                    $.each($scope.retours, function (keyItem, valueItem)
-                    {
-                        if (valueItem.id==send_data.id)
-                        {
-                            $scope.retours[keyItem].status = $scope.chstat.statut==0 ? false : true;
-                            found = true;
-                        }
-                        return !found;
-                    });
-                }
+                // if (type.indexOf('retour')!==-1)
+                // {
+                //     var found = false;
+                //     $.each($scope.retours, function (keyItem, valueItem)
+                //     {
+                //         if (valueItem.id==send_data.id)
+                //         {
+                //             $scope.retours[keyItem].status = $scope.chstat.statut==0 ? false : true;
+                //             found = true;
+                //         }
+                //         return !found;
+                //     });
+                // }
 
                 iziToast.success({
                     title: (!send_data.id ? 'AJOUT' : 'MODIFICATION'),
@@ -1206,18 +1291,7 @@ $scope.getAllDashboard = function()
 
     $scope.positions = []
 
-    $scope.actionSurPosition = function () {
-
-        $scope.positions = [
-            {position : 'Nord',ref:  parseInt($('#choix_nord_projet').val())},
-            {position : 'Sud',ref: parseInt($('#choix_sud_projet').val())},
-            {position : 'Ouest',ref: parseInt($('#choix_ouest_projet').val())},
-            {position : 'Est',ref: parseInt($('#choix_est_projet').val())},
-        ];
-
-        console.log("ici le tabs positions", $scope.positions)
-
-    }
+ 
 
     // Add element in database and in scope
     $scope.addElement = function(e,type,from='modal')

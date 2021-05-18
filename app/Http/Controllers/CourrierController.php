@@ -141,4 +141,33 @@ class CourrierController extends Controller
       ));
       }
     }
+
+    public function changeStatusCourrier(Request $request) {
+      try {
+        //code...
+        //dd($request->all());
+        $errors = null;
+        if(empty($request->id)) {
+          $errors = "Une erreur est survenu l'or de l'envoi des données";
+        }
+        $item = Courrier::find($request->id);
+        if(!isset($item)) $errors = "Impossible de touver cette courrier veuillez rafraichire la page SVP!";
+        if(!$errors) {
+            if($item->status == 0) {
+              $item->status = 1;
+            }
+            elseif($item->status == 1) $item->status = 2;
+            $item->save();
+            return  Outil::redirectgraphql($this->queryName, "id:{$item->id}", Outil::$queries[$this->queryName]);            
+
+        }
+        throw new \Exception($errors);
+
+      } catch (\Exception $e) {
+        return response()->json(array(
+          'errors'          => config('app.debug') ? $e->getMessage() : Outil::getMsgError(),
+          'errors_debug'    => [$e->getMessage()],
+      ));
+      }
+    }
 }

@@ -32,6 +32,8 @@ class CourrierPaginatedQuery extends Query
           'date_arrive'            => [ 'type' => Type::string()],
           'autre_instruction'      => [ 'type' => Type::string()],
           'expediteur'             => [ 'type' => Type::string(),],
+          'status'                 => [ 'type' => Type::int(),],
+
           'numero'                 => [ 'type' => Type::int(),],
           'created_at'             => [ 'type' => Type::string()],
           'created_at_fr'          => [ 'type' => Type::string()],
@@ -60,6 +62,10 @@ class CourrierPaginatedQuery extends Query
       {
          $query = $query->where('date_arrive', $args['date_arrive']);
       }
+      if (isset($args['status']))
+       {
+          $query = $query->where('status', $args['status']);
+       }
       if (isset($args['autre_instruction']))
       {
          $query = $query->where('autre_instruction', $args['autre_instruction']);

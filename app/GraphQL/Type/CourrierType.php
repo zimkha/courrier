@@ -26,11 +26,13 @@ class CourrierType extends GraphQLType
           'autre_instruction'      => [ 'type' => Type::string()],
           'expediteur'             => [ 'type' => Type::string(),],
           'numero'                 => [ 'type' => Type::int(),],
+          'status'                 => [ 'type' => Type::int(),],
           'created_at'             => [ 'type' => Type::string()],
           'created_at_fr'          => [ 'type' => Type::string()],
           'updated_at'             => [ 'type' => Type::string()],
           'updated_at_fr'          => [ 'type' => Type::string()],
           'services'               => ['type'  => Type::listOf(GraphQL::type('Service'))],
+          'status_title'           =>  [ 'type' => Type::string()], 
 
 
 
@@ -50,6 +52,26 @@ class CourrierType extends GraphQLType
             $date_at = is_string($root['created_at']) ? $root['created_at'] : $root['created_at']->format(Outil::formatdate());
         }
         return $date_at;
+    }
+    protected function resolveStatusTitleField($root, $args)
+    {
+       $title = 'No Tratite';
+       if (!isset($root['status']))
+       {
+           $status = $root->status;
+       }
+       else {
+         $status = $root['status'];
+       }
+       if($status == 1 )
+       {
+         $title = 'En Attente';
+       }
+       elseif($status == 2){
+         $title = "Traité";
+       }
+       return $title;
+
     }
    
     protected function resolveUpdatedAtField($root, $args)

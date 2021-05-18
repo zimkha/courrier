@@ -110,9 +110,7 @@
                                 <th>Reference</th>
                                 <th>Date arrivée</th>
                                 <th>Expediteur</th>
-                                
-                            
-
+                                <th>Statut</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                             </thead>
@@ -122,19 +120,33 @@
                                 <td>@{{ item.reference}}</td>
                                 <td>@{{ item.date_courrier }}</td>
                                 <td>@{{ item.expediteur }}</td>
-
+                                <td>
+                                    <span ng-if="item.status == 0"  class="badge badge-danger">@{{ item.status_title}}</span>
+                                    <span ng-if="item.status == 1" class="badge badge-warning">@{{ item.status_title}}</span>
+                                    <span ng-if="item.status == 2" class="badge badge-success">@{{ item.status_title}}</span>
+                                </td>
                                 <td class="text-center">
                                 <nav class="menu-leftToRight uk-flex uk-position-center ">
                                   <a  class="menu-item uk-icon-button  border-0x btn btn-sm btn-success btn-circle text-white" title="Modifier le courrier"   ng-click="showModalUpdate('courrier',item.id)">
-                                    <i class="fa fa-key" ></i>
+                                    <i class="fas fa-reply" ></i>
                                 </a>
-                                   
+                                <button ng-if="item.status == 0" ng-click= "showModalPassToOne($event, item.id, 'Etes vous sûre de vouloir passer le courrier en statut en attente?')"  title="Passer en attente" class="menu-item btn btn-sm btn-primary btn-circle">
+                                  <i class="fas fa-edit"></i>
+                              </button>
+                              <button ng-if="item.status == 1" ng-click= "showModalPassToOne($event, item.id, 'Etes vous sûre de vouloir passer le courrier en statut TRAITE ?')" title="Passer en Traité" class="menu-item btn btn-sm btn-primary btn-circle">
+                                  <i class="fas fa-check"></i>
+                              </button>
+                              <button ng-if="item.status == 2" disabled title="Courrier déjà traité" class="menu-item btn btn-sm btn-primary btn-circle">
+                                  <i class="fas fa-check-double"></i>
+                              </button>
                                     <a href="courrier/pdf/@{{ item.id }}" target="_blank" title="Imprimer le courrier"   class="menu-item btn btn-sm btn-warning btn-circle">
                                       <i class="fa fa-file"></i>
                                       </a>
+
                                     <button ng-click="deleteElement('courrier',item.id)" title="Supprimer le courrier" class="menu-item btn btn-sm btn-danger btn-circle">
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                   
                                   
                                    
                                </nav>
