@@ -164,7 +164,6 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Rebing\GraphQL\GraphQLServiceProvider::class,
-        Sentry\Laravel\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
 
@@ -237,7 +236,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'GraphQL' => Rebing\GraphQL\Support\Facades\GraphQL::class,
-        'Sentry' => Sentry\Laravel\Facade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
 

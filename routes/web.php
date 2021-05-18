@@ -30,9 +30,7 @@ Route::delete('/courrier/{id}', 'CourrierController@delete');
 
 
 Route::get('/test', 'PlanController@test');
-Route::get('/debug-sentry', function () {
-    throw new Exception('My first Sentry error!');
-});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
