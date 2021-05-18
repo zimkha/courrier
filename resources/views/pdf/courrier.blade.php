@@ -174,15 +174,14 @@ td{
 <body class="body-1">
 <div id="watermark"><img  src="assets/images/coud.jpeg" height="100%" width="100%"></div>
   <img style="width:80px;height: 80px;" src="assets/images/coud.jpeg">
+  <h3 align="center"> Fiche de ventilation du courrier</h3>
   <table  width="100 %">
-   <tr >
-     <td> Fiche de ventilation du courrier</td>
-  </tr>
+  
     <tr>
       <td>
         REFERENCES   : {{ $courrier["reference"]}}
         <br> <br> <br>
-        EXPEDITEUUR : {{ $courrier["expediteur"]}}
+        EXPEDITEUR : {{ $courrier["expediteur"]}}
       </td>
       <td>DATE COURRIER : {{ $courrier["date_courrier"]}} </td>
       <td>

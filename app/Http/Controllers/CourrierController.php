@@ -15,7 +15,7 @@ class CourrierController extends Controller
     public function save(Request $request) {
         return DB::transaction(function() use($request) {
           try {
-             dd($request->all());
+             //dd($request->all());
               $tab = [];
               $errors = null;
               $item  = new Courrier();
