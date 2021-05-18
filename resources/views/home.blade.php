@@ -91,62 +91,6 @@
    
 
 
-    <!-- <div class="modal fade" id="modal_changeStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-            <div class="modal-header back-dark-50 text-white border-0">
-              
-            <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">gggg</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                  <div class="modal-body m-3">
-                      <form id="form_addlier_plan" class="form" enctype="multipart/form-data" accept-charset="UTF-8">
-                          @csrf
-                    
-                          <div class="modal-footer">
-                              <button type="reset" class="btn btn-danger" data-dismiss="modal">Non</button>
-                              <button type="submit" class="btn btn-primary" ng-click="changeStatus($event, chstat.id)">Oui</button>
-                          </div>
-                      </form>
-                  </div>
-            </div>
-
-        </div>
-    </div> -->
-
-
-
-    <!-- <div class="modal fade" id="modal_changeStatus"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog modal-md" role="document" >
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-dark text-white">
-                    <h5 class="modal-title" id="exampleModalLongTitle">@{{chstat.title}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                          <div class="modal-body modal-body1">
-                              <form id="modal_addchstat" class="form" accept-charset="UTF-8" ng-submit="changestatut($event,chstat.id)">
-                                  @csrf
-                                  <div class="uk-margin">
-                                  </div>
-                                  <div class="text-right">
-                                      <div class="mt-30">
-                                          <button class="uk-button back-red shadow text-white pl-2 pr-2 lh-34 button-mat-filtrer btn--7" type="reset" data-dismiss="modal"><span class="psuedo-text"><i class="fa fa-times"></i> Non</span> </button>
-                                          <button class="uk-button back-dark shadow text-white pl-2 pr-2 lh-34 button-mat-valid btn--7" type="submit"> <span class="psuedo-text"><i class="fa fa-check"></i> Oui</span></button>
-                                      </div>
-                                  </div>
-                              </form>
-
-                          </div>
-               
-            </div>
-        </div>
-    </div> -->
-
 
   
 
@@ -163,7 +107,7 @@
                 </div>
                 <div class="modal-body m-3">
                    <form id="form_addcourrier" class="form" enctype="multilpart/form-data" accept-charset="UTF-8">
-                    
+                   <input type="hidden" id="id" name="id">   
                       <div class="card p-4 mt-20 animated fadeIn">
                           <div class="row">
                               <div class="col-md-6">

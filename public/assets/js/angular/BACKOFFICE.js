@@ -2350,6 +2350,7 @@ $scope.getAllDashboard = function()
 
             }
             else if(type.indexOf('courrier'!==-1 || type.indexOf('/')!==-1)) {
+              $("#id").val(item.id);
               $('#objet' ).val(item.objet)
               $('#numero' ).val(item.numero)
               $('#date_arrive' ).val(item.date_arrive)
