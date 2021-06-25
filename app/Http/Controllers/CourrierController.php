@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\DB;
 use PDF;
 use App\Outil;
 use App\Courrier;
+use App\Role;
 use App\Service;
+use  App\Http\Controllers\Auth;
 
 class CourrierController extends Controller
 {
@@ -15,7 +17,7 @@ class CourrierController extends Controller
     public function save(Request $request) {
         return DB::transaction(function() use($request) {
           try {
-             //dd($request->all());
+            // dd($request->all());
               $tab = [];
               $errors = null;
               $item  = new Courrier();
@@ -39,6 +41,9 @@ class CourrierController extends Controller
               if(isset($request->date_arrive) && $request->date_arrive == "NaN-NaN-NaN" )
               {
                 $errors = "Veuillez renseigne la date d'arrivée du courrier SVP";
+              }
+              if(isset($request->radioBtnComposition)) {
+                $item->type = $request->radioBtnComposition;
               }
               if(!$errors) {
                 // $item->date_courrier = (isset($request->date_courrier )&& $request->date_courrier != "Nan Nan Nan") ? $request->date_courrier." 00:00:00": null;
@@ -169,5 +174,73 @@ class CourrierController extends Controller
           'errors_debug'    => [$e->getMessage()],
       ));
       }
+    }
+
+    public function getData() {
+     
+      $total = Courrier::all()->count();
+      $depart = Courrier::getNbByType(0);
+      $arrive = Courrier::getNbByType(1);
+
+      $encour = Courrier::getNbByStatus(1);
+      $non_traite = Courrier::getNbByStatus(0);
+      $finalise = Courrier::getNbByStatus(2);
+
+      
+     return [
+       'total' => $total,
+       'arrive' => $arrive,
+       'depart' => $depart,
+       'encour' => $encour,
+       'non_traite' => $non_traite,
+       'finalise' => $finalise,
+     ];
+
+    }
+
+    public function getDataByMonth() {
+       $data = [];
+       $month = [
+         1  => 'Janvier',
+         2  => 'Fevrier',
+         3  => 'Mars',
+         4  => 'Avril',
+         5  => 'Mai',
+         6  => 'Juin',
+         7  => 'Juillet',
+         8  => 'Aout',
+         9  => 'Septembre',
+         10 => 'Octobre',
+         11 => 'Novembre',
+         12 => 'Decembre',
+       ];
+       for($i = 1; $i<=12; $i++) {
+         $data_by = Courrier::whereMonth('created_at', '=', $i)->count();
+          array_push($data, [
+             $data_by
+          ]);
+       }
+      
+       return  $data;
+       
+    }
+
+    public function getDataByType() {
+      $data = [];
+      array_push($data, [
+        Courrier::where('type', '=', '0')->count()
+      ]);
+      array_push($data, [
+        Courrier::where('type', '=', '1')->count()
+      ]);
+    
+      return $data;  
+    }
+
+    public function test()
+    {
+      $role = Role::with('users')->find($user = Auth()->user()->id);
+       $user = Auth()->user()->id;
+       dd($role);
     }
 }

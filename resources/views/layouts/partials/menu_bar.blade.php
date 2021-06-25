@@ -5,7 +5,7 @@
         <!-- <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-home"></i>
         </div> -->
-        <div class="sidebar-brand-icon rotate-n-15"> <img class="img-profile rounded-circle" style="width:60px;height: 60px;"  src="{{ asset('assets/images/coud.jpeg') }}" />
+        <div class="sidebar-brand-icon rotate-n-15"> <img class="img-profile rounded-circle" style="width:60px;height: 60px;"  src="{{ asset('assets/images/logo3s.jpeg') }}" />
         </div>
     </a>
 
@@ -35,7 +35,7 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#!/">Liste des Courriers</a>
+                <a class="collapse-item" href="#!/courriers">Liste des Courriers</a>
             </div>
         </div>
     </li>

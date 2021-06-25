@@ -11,7 +11,7 @@
 
 
 <script src="{{asset("assets/js/angular/ui-bootstrap-tpls-2.5.0.min.js")}}" type="text/javascript"></script>
-
+<script src="{{asset('assets/js/chart.js')}}"></script>
 <script src="{{asset("assets/js/angular/BACKOFFICE.js")}}"></script>
 
 <!-- Bootstrap core JavaScript-->
@@ -25,7 +25,6 @@
 <script src="{{asset('assets/js/sb-admin-2.min.js') }}"></script>
 
 <!-- Page level plugins -->
-<script src="{{asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
 <script src="{{asset('assets/js/demo/chart-area-demo.js') }}"></script>
@@ -43,6 +42,7 @@
 <!--BlockUI -->
 <script src="{{asset('assets/js/vendors/blockui.js')}}"></script>
 <script src="{{asset('assets/js/scripts-init/blockui.js')}}"></script>
+<script src="{{asset('assets/js/myChart.js')}}"></script>
 
 <script>
   $(document).ready(function() {

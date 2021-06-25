@@ -187,7 +187,7 @@ td{
       <td>
         ARRIVEE N° {{ $courrier["numero"]}}
         <br> <br> <br>
-        DATE ARRIVE : {{ $courrier["date_arrive"]}}
+        DATE ARRIVEE : {{ $courrier["date_arrive"]}}
       </td>
    
     </tr>

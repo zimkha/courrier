@@ -27,9 +27,13 @@ Route::post('/courrier', 'CourrierController@save');
 Route::post('/change-status', 'CourrierController@changeStatusCourrier');
 Route::get('/courrier/pdf/{id}', 'CourrierController@pdf');
 Route::delete('/courrier/{id}', 'CourrierController@delete');
+Route::get('data-get', 'CourrierController@getData');
+Route::get('data', 'CourrierController@getDataByMonth');
+Route::get('getdata-type', 'CourrierController@getDataByType');
+
+Route::get('test', 'CourrierController@test');
 
 
-Route::get('/test', 'PlanController@test');
 
 Auth::routes();
 

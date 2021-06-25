@@ -12,12 +12,15 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        $item = Role::where('name', 'super-admin')->first();
-        if (!isset($item)) {
-            $role = \Spatie\Permission\Models\Role::create(['name' => 'super-admin']);
-            $role->givePermissionTo(Permission::all());
-        }
-       
+      
+        $role = \Spatie\Permission\Models\Role::create(['name' => 'super-admin']);
+        $role->givePermissionTo(Permission::all());
+
+        $admin   = \Spatie\Permission\Models\Role::create(['name' => 'admin']);
+        $admin->givePermissionTo(Permission::all());
+        $admin->revokePermissionTo(Permission::whereIn('name', ['creation-courrier'])->get());
+
+             
     }
 }
 

@@ -13,9 +13,10 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $users = array();
-        array_push($users,array("name" => "root" , "email" => "root@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "root"));
-        array_push($users,array("name" => "mbacke" , "email" => "mbacke@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "root"));
-       
+          array_push($users,array("name" => "root" , "email" => "root@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "root"));
+          array_push($users,array("name" => "mbacke" , "email" => "mbacke@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "root"));
+          array_push($users,array("name" => "responsable" , "email" => "admin@root.sn" , "image" =>  ('assets/images/upload.jpg') , "password" => "admin"));
+  
 
         foreach ($users as $user)
         {
@@ -33,14 +34,19 @@ class UsersTableSeeder extends Seeder
         }
 
 
-        // $users = User::all();
-        // foreach ($users as $user)
-        // {
-        //     if ($user->name == "root" || $user->name == "root" )
-        //     {
-        //         $user->syncRoles('super-admin');
-        //     }
-        // }
+        $users = User::all();
+        foreach ($users as $user)
+        {
+            if ($user->name == "root")
+            {
+                $user->syncRoles('super-admin');
+            }
+            if ($user->name == "responsable")
+            {
+                $user->syncRoles('admin');
+            }
+
+        }
 
     }
 }

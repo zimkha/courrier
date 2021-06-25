@@ -48,17 +48,22 @@ class DatabaseTableSeeder extends Seeder
           array('name' => 'CCOOP' ),
           array('name' => 'BAP' ),
       ];
+
         foreach ($gauche as $type) {
             $item = ServiceGauche::where('name', 'like', '%'.$type['name'].'%');
             if (!isset($item)) {
-              ServiceGauche::create(['name' => $type['name']]);
+              $item = new ServiceGauche();
+              $item->name = $type['name'];
+              $item->save();
             }
         }
-        foreach ($gauche as $type) {
+
+        foreach ($droite as $type) {
           $item = ServiceDroite::where('name', 'like', '%'.$type['name'].'%');
           if (!isset($item)) {
-            ServiceDroite::create(['name' => $type['name']]);
-          }
+            $item = new ServiceGauche();
+            $item->name = $type['name'];
+            $item->save();          }
       }
   
     }

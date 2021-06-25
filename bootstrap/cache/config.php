@@ -501,6 +501,7 @@
           4 => 'App\\GraphQL\\Query\\ServiceGaucheQuery',
           5 => 'App\\GraphQL\\Query\\CourrierQuery',
           6 => 'App\\GraphQL\\Query\\CourrierPaginatedQuery',
+          7 => 'App\\GraphQL\\Query\\DashboardQuery',
         ),
         'mutation' => 
         array (
@@ -526,6 +527,7 @@
       5 => 'App\\GraphQL\\Type\\ServiceType',
       6 => 'App\\GraphQL\\Type\\ServiceGaucheType',
       7 => 'App\\GraphQL\\Type\\ServiceDroiteType',
+      8 => 'App\\GraphQL\\Type\\DashboardType',
     ),
     'lazyload_types' => false,
     'error_formatter' => 

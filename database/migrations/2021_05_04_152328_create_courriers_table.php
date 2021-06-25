@@ -18,9 +18,9 @@ class CreateCourriersTable extends Migration
             $table->string('reference');
             $table->date('date_courrier');
             $table->date('date_arrive');
-            $table->string('objet');
             $table->string('expediteur');
             $table->string('numero');
+            $table->string('type');
             $table->text('autre_instruction')->nullable();
             $table->timestamps();
         });

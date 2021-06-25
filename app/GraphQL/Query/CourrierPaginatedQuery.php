@@ -42,6 +42,8 @@ class CourrierPaginatedQuery extends Query
           'created_at_start'       => ['type' => Type::string()],
           'created_at_end'         => ['type' => Type::string()],
           'page'                   => ['type' => Type::int()],
+          'type'                   =>  [ 'type' => Type::string()], 
+
           'count'                  => ['type' => Type::int()]
         ];
         
@@ -77,6 +79,10 @@ class CourrierPaginatedQuery extends Query
       if (isset($args['numero']))
       {
          $query = $query->where('numero', 'like', '%'.$args['numero'].'%');
+      }
+      if(isset($args['type']))
+      {
+        $query = $query->where('type', $args['type']);
       }
       if (isset($args['created_at_start']) && isset($args['created_at_end']))
       {

@@ -8,6 +8,7 @@
       <div class="collapse show">
         <div class="card-body">
         <div class="float-right pt-0">
+          
         <button class="btn btn-primary"  ng-click="viderTab();showModalAdd('courrier')" title="Nouveau courrier"><i class="fa fa-plus"></i></button>
     </div>
     <br>
@@ -63,7 +64,15 @@
                                 <input type="text" class="form-control" id="reference_courrier"  placeholder="La référence du courrier"  autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        
+                        <div class="col-md-6 mt-0">
+                        <label>Type de Courrier</label>
+                            <select class="form-control" id="searchoptiontype_courrier" ng-model="searchoptiontype_courrier" name="searchoptiontype">
+                                <option value="1">Arrive</option>
+                                <option value="0">Depart</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
                           <label>Expediteur</label>
                           <div class="form-group">
                               <input type="text" class="form-control" id="expediteur_courrier"  placeholder="L'expediteur"  autocomplete="off">

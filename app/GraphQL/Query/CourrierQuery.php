@@ -38,6 +38,8 @@ class CourrierQuery extends Query
             'updated_at_fr'          => [ 'type' => Type::string()],
             'created_at_start'       => ['type' => Type::string()],
             'created_at_end'         => ['type' => Type::string()],
+            'type'                   =>  [ 'type' => Type::string()], 
+
         ];
     }
     public function resolve($root, $args)
@@ -72,6 +74,9 @@ class CourrierQuery extends Query
        if (isset($args['numero']))
        {
           $query = $query->where('numero', $args['numero']);
+       }
+       if(isset($args['type'])) {
+         $query = $query->where('type', $args['type']);
        }
        if (isset($args['created_at_start']) && isset($args['created_at_end']))
        {
@@ -116,7 +121,8 @@ class CourrierQuery extends Query
             'date_arrive'              => $item->date_arrive,
             'autre_instruction'        => $item->autre_instruction,
             'created_at'               => $item->created_at,
-            'services'                 => $item->services
+            'services'                 => $item->services,
+            'type'                     => $item->type
         ];
       });
     }

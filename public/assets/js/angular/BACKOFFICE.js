@@ -38,6 +38,7 @@ app.filter('changeDatePart', [
         };
     }]);
 
+    
 
 app.factory('Init',function ($http, $q)
 {
@@ -259,9 +260,12 @@ app.factory('Init',function ($http, $q)
 // Configuration du routage au niveau de l'app
 app.config(function($routeProvider) {
     $routeProvider
-        .when("/", {
+        .when("/courriers", {
             templateUrl : "page/list-courrier",
         })
+        .when("/", {
+          templateUrl : "page/dashboard",
+      })
       
         .when("/pub", {
             templateUrl : "page/pub",
@@ -282,13 +286,15 @@ app.controller('BackEndCtl',function (Init,$location,$scope,$filter, $log,$q,$ro
            
             "servicegauches"  : ["id,name",""],
 
+            "dashboards"  : ["total,depart,arrive,encour",""],
+
             "servicedroites"  : ["id,name",""],
 
             'permissions'                   : ['id,name,display_name,guard_name', ""],
 
             "roles"                         : ["id,name,guard_name,permissions{id,name,display_name,guard_name}", ""],
 
-            "courriers" : ["id,numero,reference,expediteur,autre_instruction,date_courrier,objet,date_arrive,status_title,status,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
+            "courriers" : ["id,numero,reference,type,expediteur,autre_instruction,date_courrier,objet,date_arrive,status_title,status,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
 
         };
 
@@ -374,6 +380,96 @@ app.controller('BackEndCtl',function (Init,$location,$scope,$filter, $log,$q,$ro
     };
 
 
+    $scope.ChartMonth = function() {
+      $.ajax({
+        url:  BASE_URL + "data",
+        methode: "GET",
+        success: function (data) {
+          let months = {
+            0 : 'Janvier',
+            1: 'Fevrier',
+            2: 'Mars',
+            3: 'Avril',
+            4: 'Mai',
+            5: 'Juin',  6: 'Juillet',  7: 'Aout',  8: 'Septembre',
+            9: 'Octobre',  10: 'Nomvembre',  11: 'Decembre',
+          }
+           console.log("les donnees 1",data)
+            var mois = [];
+            var val = [];           
+            for (var i  in data)
+            {
+              let element = data[i];
+                mois.push(months[i]); 
+                val.push(element[0])            
+            }
+            var chartMonth = {
+              labels: mois,
+              datasets : [
+                  {
+                      label : 'Statistiques par Mois ',
+                      backgroundColor: ['#f7464a', '#46bfbd', '#fdb45c', '#985f0d',  '#985f0d'],
+                      borderColor:'rgba(200,200,200,0.75)',
+                      hoverBackgroundColor: 'rgba(200,200,200,1)',
+                      hoverBorderColor: 'rgba(200,200,200,1)',
+                      data:val
+                  }
+              ]
+          };
+          var ctx1 = $("#chartMonth");
+          console.log(ctx1,"yeeeeeeee");
+          var graph = new Chart(ctx1, {
+              type: 'bar',
+              data: chartMonth
+          });  
+        }
+     });
+    }
+
+    $scope.chartTypeData = function() {
+    $.ajax({
+        url: BASE_URL + 'getdata-type/',
+        method: "GET",
+        success: function (data) {
+           let tab = {
+              1: "Arrive",
+              0: "Départ"
+           };
+            var type = [];
+            var itemVal = [];
+
+            console.log(data)
+            for (var i in data)
+            {
+              type.push(tab[i]);
+              let element = data[i];
+              itemVal.push(element[0])
+            }
+            var chartType = {
+                labels: type,
+                datasets : [
+                    {
+                        label : 'Statistiques par Type° ',
+                        backgroundColor: ['#f7464a', '#46bfbd', '#fdb45c', '#985f0d',  '#985f0d'],
+                        borderColor:'rgba(200,200,200,0.75)',
+                        hoverBackgroundColor: 'rgba(200,200,200,1)',
+                        hoverBorderColor: 'rgba(200,200,200,1)',
+                        data:itemVal
+                    }
+                ]
+            };
+            var ctx = $("#chartType");
+            var graph = new Chart(ctx, {
+                type: 'bar',
+                data: chartType
+            });
+        }, error: function (data) {
+            console.log("erreur de server" +data)
+        }
+    });
+ }
+
+
     $scope.getelements = function (type, addData=null, forModal = false, nullableAddToReq = false)
     {
         rewriteType = type;
@@ -422,6 +518,10 @@ app.controller('BackEndCtl',function (Init,$location,$scope,$filter, $log,$q,$ro
             {
                 $scope.courriers = data;
             }
+            else if (type.indexOf("dashboards")!==-1)
+            {
+                $scope.dashboards = data;
+            }
            
         }, function (msg) {
             iziToast.error({
@@ -434,6 +534,15 @@ app.controller('BackEndCtl',function (Init,$location,$scope,$filter, $log,$q,$ro
 
     };
     $scope.dataDashboard = [];
+    $scope.DiseableEnableinput = function($event) {
+     
+        if($("#depart").prop('checkec', true)) {
+          // On cache les champs 
+        }
+        else if($("#arrive").prop('checked', true)) {
+          // On afficher certains champs et on cache d'autre
+        }
+    }
 $scope.getAllDashboard = function()
 {
     $.ajax({
@@ -485,38 +594,38 @@ $scope.getAllDashboard = function()
             });
         }
 
-        else if ( currentpage.indexOf('projet')!==-1 )
-        {
-            rewriteelement = 'projetspaginated(page:'+ $scope.paginationprojet.currentPage +',count:'+ $scope.paginationprojet.entryLimit
-            + ($scope.projetview ? ',projet_id:' + $scope.projetview.id : "" )
-            + ($scope.client_id != null ? ',user_id:' + $scope.client_id : "")
-            + ($scope.clientview ? ',user_id:' + $scope.clientview.id : "" )
-            + ($scope.radioBtnComposition ? ',etat:' + $scope.radioBtnComposition : "")
-            + ($('#searchtexte_projet').val() ? (',' + $('#searchoption_projet').val() + ':"' + $('#searchtexte_projet').val() + '"') : "" )
-            + ($('#projet_user').val() ? ',user_id:' + $('#projet_user').val() : "" )
-            + ($('#created_at_start_listprojet').val() ? ',created_at_start:' + '"' + $('#created_at_start_listprojet').val() + '"' : "" )
-            + ($('#created_at_end_listprojet').val() ? ',created_at_end:' + '"' + $('#created_at_end_listprojet').val() + '"' : "" )
-            + ($scope.onlyEnCours ? ',tout:true' : "" )
-                +')';
-            Init.getElementPaginated(rewriteelement, listofrequests_assoc["projets"][0]).then(function (data)
-            {
+        // else if ( currentpage.indexOf('projet')!==-1 )
+        // {
+        //     rewriteelement = 'projetspaginated(page:'+ $scope.paginationprojet.currentPage +',count:'+ $scope.paginationprojet.entryLimit
+        //     + ($scope.projetview ? ',projet_id:' + $scope.projetview.id : "" )
+        //     + ($scope.client_id != null ? ',user_id:' + $scope.client_id : "")
+        //     + ($scope.clientview ? ',user_id:' + $scope.clientview.id : "" )
+        //     + ($scope.radioBtnComposition ? ',etat:' + $scope.radioBtnComposition : "")
+        //     + ($('#searchtexte_projet').val() ? (',' + $('#searchoption_projet').val() + ':"' + $('#searchtexte_projet').val() + '"') : "" )
+        //     + ($('#projet_user').val() ? ',user_id:' + $('#projet_user').val() : "" )
+        //     + ($('#created_at_start_listprojet').val() ? ',created_at_start:' + '"' + $('#created_at_start_listprojet').val() + '"' : "" )
+        //     + ($('#created_at_end_listprojet').val() ? ',created_at_end:' + '"' + $('#created_at_end_listprojet').val() + '"' : "" )
+        //     + ($scope.onlyEnCours ? ',tout:true' : "" )
+        //         +')';
+        //     Init.getElementPaginated(rewriteelement, listofrequests_assoc["projets"][0]).then(function (data)
+        //     {
 
-                $scope.paginationprojet = {
-                    currentPage: data.metadata.current_page,
-                    maxSize: 10,
-                    entryLimit: $scope.paginationprojet.entryLimit,
-                    totalItems: data.metadata.total
-                };
+        //         $scope.paginationprojet = {
+        //             currentPage: data.metadata.current_page,
+        //             maxSize: 10,
+        //             entryLimit: $scope.paginationprojet.entryLimit,
+        //             totalItems: data.metadata.total
+        //         };
 
-                $scope.projets = data.data;
+        //         $scope.projets = data.data;
 
-                 console.log("$scope.client_id ",data.data)
-            },function (msg)
-            {
+        //          console.log("$scope.client_id ",data.data)
+        //     },function (msg)
+        //     {
 
-                toastr.error(msg);
-            });
-        }
+        //         toastr.error(msg);
+        //     });
+        // }
         else if (currentpage.indexOf('role') !== -1)
         {
             rewriteelement = (currentpage + 's') + 'paginated(page:' + $scope.paginationrole.currentPage + ',count:' + $scope.paginationrole.entryLimit
@@ -911,23 +1020,21 @@ $scope.getAllDashboard = function()
         }
          else if(angular.lowercase(current.templateUrl).indexOf('dashboards')!==-1 || angular.lowercase(current.templateUrl).indexOf('')!==-1)
          {
-            $scope.pageChanged('projet');
-            $scope.mydata = [];
+           
+            $scope.data = [];
               $http({
                 method: 'GET',
-                url: BASE_URL + 'getResultat'
+                url: BASE_URL + 'data-get'
             }).then(function successCallback(response) {
                 console.log("je suis la factory",response.data)
-                data = response.data;
-                document.getElementById("encour").innerHTML = data[0].encours;
-                document.getElementById("total").innerHTML = data[0].total;
-                 document.getElementById("en_attente").innerHTML = data[0].en_attente;
-                document.getElementById("final").innerHTML = data[0].finalise;
+                $scope.data = response.data;
+                console.log($scope.data, "les donnes")
             }, function errorCallback(error) {
                 console.log('erreur serveur', error);
-                deferred.reject(msg_erreur);
+               
             });
-            // console.log(, mydata);
+            setTimeout($scope.ChartMonth(), 1500)
+            setTimeout( $scope.chartTypeData(), 1500);
 
          }
 
@@ -1159,6 +1266,7 @@ $scope.getAllDashboard = function()
           $('#expediteur' ).val('')
           $('#reference' ).val('')
           $('#autre_instruction' ).val('')
+          $("#arrive").prop('checked', true);
         }
       
       
@@ -1405,7 +1513,8 @@ $scope.getAllDashboard = function()
             }
              courrier_date = date_courrier.getFullYear() + '-' + month +'-' + jr;
           }
-  
+         
+          console.log($('#depart'), $('#arrive'), "voirr")
           send_data.append('reference', $("#reference").val());
           send_data.append('objet',     $("#objet").val());
           send_data.append('expediteur', $("#expediteur").val());
@@ -2358,6 +2467,13 @@ $scope.getAllDashboard = function()
               $('#expediteur' ).val(item.expediteur)
               $('#reference' ).val(item.reference)
               $('#autre_instruction').val(item.autre_instruction)
+             console.log(item.type, "les donnees")
+              if(item.type == 1 || item.type == '1') {
+                $('#arrive').prop('checked', true);
+              }
+              else {
+                $("#depart").prop('checked', true);
+              }
               $scope.dataInTableService = [];
               $scope.tableName = [];
               var table_name = [];

@@ -66,6 +66,7 @@ return [
                 \App\GraphQL\Query\ServiceGaucheQuery::class,
                 \App\GraphQL\Query\CourrierQuery::class,
                 \App\GraphQL\Query\CourrierPaginatedQuery::class,
+                \App\GraphQL\Query\DashboardQuery::class,
             ],
             'mutation' => [
                 // 'example_mutation'  => ExampleMutation::class,
@@ -87,6 +88,7 @@ return [
         \App\GraphQL\Type\ServiceType::class,
         \App\GraphQL\Type\ServiceGaucheType::class,
         \App\GraphQL\Type\ServiceDroiteType::class,
+        \App\GraphQL\Type\DashboardType::class,
 
 
     ],

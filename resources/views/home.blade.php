@@ -106,9 +106,19 @@
                     </button>
                 </div>
                 <div class="modal-body m-3">
+
                    <form id="form_addcourrier" class="form" enctype="multilpart/form-data" accept-charset="UTF-8">
                    <input type="hidden" id="id" name="id">   
+                 
                       <div class="card p-4 mt-20 animated fadeIn">
+                      <div class="form-row mt-4">
+                        <div class="col-md-12 col-sm-12 mb-3 uk-margin-sma
+                        ll-top text-center text-md-center" id="etat">
+                            <span class="uk-text-bold fsize-14 uk-text-uppercase uk-margin-small-right">Type de Courrier : </span>
+                            <input type="radio" checked value="1" ng-click="DiseableEnableinput($event)"  name="radioBtnComposition"  id="arrive"  class="uk-radio true"> <span class="fsize-12 uk-margin-small-right">Arrivée</span>
+                            <input type="radio" value="0"  ng-click="DiseableEnableinput($event)"  name="radioBtnComposition" id="depart" class="uk-radio"> <span class="fsize-12 uk-margin-small-right">Départ</span>
+                        </div>
+                    </div>
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group">

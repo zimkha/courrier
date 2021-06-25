@@ -33,6 +33,7 @@ class CourrierType extends GraphQLType
           'updated_at_fr'          => [ 'type' => Type::string()],
           'services'               => ['type'  => Type::listOf(GraphQL::type('Service'))],
           'status_title'           =>  [ 'type' => Type::string()], 
+          'type'                   =>  [ 'type' => Type::string()], 
 
 
 
