@@ -8,8 +8,9 @@
       <div class="collapse show">
         <div class="card-body">
         <div class="float-right pt-0">
-          
-        <button class="btn btn-primary"  ng-click="viderTab();showModalAdd('courrier')" title="Nouveau courrier"><i class="fa fa-plus"></i></button>
+        <button class="btn btn-success"  ng-click="showModalAdd('courrierdepart')" title="Courrier de départ"><i class="fa fa-plus"></i></button>
+ 
+        <button class="btn btn-primary"  ng-click="viderTab();showModalAdd('courrier')" title="Courrier d'arrivée"><i class="fa fa-plus"></i></button>
     </div>
     <br>
         <!-- <form>

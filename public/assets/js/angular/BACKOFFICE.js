@@ -1436,41 +1436,56 @@ $scope.getAllDashboard = function()
      
       
         else if( type == 'courrier' || type == 'courriers') {
-        //   if($("#reference").val() == '') {
-        //     iziToast.error({
-        //       title: "",
-        //       message: "Vous devez renseigne la référence",
-        //       position: 'topRight'
-        //   });
-        //   }
-        //   if($("#reference").val() == '') {
-        //     iziToast.error({
-        //       title: "",
-        //       message: "Veuilléz renseigner la référence",
-        //       position: 'topRight'
-        //   });
-        //   }
-        //   if($("#objet").val() == '') {
-        //     iziToast.error({
-        //       title: "",
-        //       message: "Veuilléz renseigner l'objet",
-        //       position: 'topRight'
-        //   });
-        //   }
-        //   if($("#expediteur").val() == '') {
-        //     iziToast.error({
-        //       title: "",
-        //       message: "Veuilléz renseigner l'expediteur",
-        //       position: 'topRight'
-        //   });
-        //   }
-        //   if($("#numero").val() == '') {
-        //     iziToast.error({
-        //       title: "",
-        //       message: "Veuillez renseigner le numéro",
-        //       position: 'topRight'
-        //   });
-        //   }
+         if($("#courrier_depart")) {
+          if($("#date_depart").val() == '') {
+            iziToast.error({
+              title: "",
+              message: "Veuillez renseigner la date départ du courrier",
+              position: 'topRight'
+          });
+          }
+          if($("#reference").val() == '') {
+            iziToast.error({
+              title: "",
+              message: "Veuillez renseigner la référence du courrier",
+              position: 'topRight'
+          });
+          } 
+          if($("#destinataire").val() == '') {
+            iziToast.error({
+              title: "",
+              message: "Veuillez renseigner le destinataire du courrier",
+              position: 'topRight'
+          });
+          }   if($("#numero").val() == '') {
+            iziToast.error({
+              title: "",
+              message: "Veuillez renseigner le numéro du courrier ",
+              position: 'topRight'
+          });
+          }
+          let depart_date = null;
+          let date_depart = $("#date_depart").val();
+          if(date_depart != null) {
+            date_depart = new Date(date_depart);
+            let month =  date_depart.getMonth() + 1 ;
+            let jr  = date_depart.getDate();
+            if(jr < 10) {
+                jr = "0"+ jr;
+            }
+            if(month < 10) {
+                month = "0"+month;
+            }
+            depart_date = date_depart.getFullYear() + '-' + month +'-' + jr;
+          }
+          send_data.append('reference', $("#reference").val());
+          send_data.append('destinataire',     $("#destinataire").val());
+          send_data.append('numero',    $("#numero").val()); 
+          send_data.append('courrier_depart', true); 
+          send_data.append('date_depart', depart_date);
+
+         }
+         else {
           if($("#date_courrier").val() == '') {
             iziToast.error({
               title: "",
@@ -1540,6 +1555,8 @@ $scope.getAllDashboard = function()
         continuer = false;
          }
   
+         }
+         
         
         }
      
@@ -1733,8 +1750,13 @@ $scope.getAllDashboard = function()
                     }
                     else
                     {
+                        $("#modal_addcourrierdepart").modal('hide');
                         $("#modal_addcourrier").modal('hide');
                         $scope.emptyForm('courrier')
+                        $("#reference").val('')
+                        $("#destinataire").val('')
+                        $("#date_depart").val('')
+                        $("#numero").val('')
                     }
 
 

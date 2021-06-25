@@ -27,8 +27,21 @@ class CourrierController extends Controller
                 Service::where('courrier_id', $request->id)->forceDelete();
               }
 
-              //dd($item);
-              
+             if($request->courrier_depart == true || $request->courrer_depart == 'true') {
+                 if(empty($request->destinataire) || empty($request->numero) || empty($request->reference) || empty($request->date_depart)) {
+                      $errors = "Veuillez remplire tous les champs du formulaire";
+                      throw new Exception($errors);
+                 }
+                 $item->type = 0;
+                 $item->reference = $request->reference;
+                 $item->date_depart = $request->date_depart;
+                 $item->numero = $request->numero;
+                 $item->destinataire = $request->destinataire;
+                 $item->save();
+                 return  Outil::redirectgraphql($this->queryName, "id:{$item->id}", Outil::$queries[$this->queryName]);            
+
+             }
+             else {
               $services = json_decode($request->services);
               if($services == [] || sizeof($services) == 0 ) 
               {
@@ -42,12 +55,11 @@ class CourrierController extends Controller
               {
                 $errors = "Veuillez renseigne la date d'arrivée du courrier SVP";
               }
-              if(isset($request->radioBtnComposition)) {
-                $item->type = $request->radioBtnComposition;
-              }
+            
               if(!$errors) {
                 // $item->date_courrier = (isset($request->date_courrier )&& $request->date_courrier != "Nan Nan Nan") ? $request->date_courrier." 00:00:00": null;
                 // $item->date_arrive = (isset($request->date_arrive) && $request->date_arrive != "Nan Nan Nan" ) ? $request->date_arrive." 00:00:00": '';
+                $item->type = 1;
                 if(isset($request->date_courrier) && $request->date_courrier!= "NaN-NaN-NaN" )
                     $item->date_courrier = $request->date_courrier;
                 if(isset( $request->date_arrive) && $request->date_arrive!= "NaN-NaN-NaN")    
@@ -76,7 +88,9 @@ class CourrierController extends Controller
                 }
                 return  Outil::redirectgraphql($this->queryName, "id:{$item->id}", Outil::$queries[$this->queryName]);            
               }
-              throw new \Exception($errors);
+             }
+              
+            throw new \Exception($errors);
               
           } 
           catch (\Exception $e) {

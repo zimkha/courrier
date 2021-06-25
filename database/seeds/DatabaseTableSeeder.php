@@ -50,21 +50,21 @@ class DatabaseTableSeeder extends Seeder
       ];
 
         foreach ($gauche as $type) {
-            $item = ServiceGauche::where('name', 'like', '%'.$type['name'].'%');
-            if (!isset($item)) {
+            // $item = ServiceGauche::where('name', 'like', '%'.$type['name'].'%');
+            // if (!isset($item)) {
               $item = new ServiceGauche();
               $item->name = $type['name'];
               $item->save();
-            }
+           // }
         }
 
         foreach ($droite as $type) {
-          $item = ServiceDroite::where('name', 'like', '%'.$type['name'].'%');
-          if (!isset($item)) {
+          // $item = ServiceDroite::where('name', 'like', '%'.$type['name'].'%');
+          // if (!isset($item)) {
             $item = new ServiceGauche();
             $item->name = $type['name'];
             $item->save();          }
-      }
+     // }
   
     }
 }

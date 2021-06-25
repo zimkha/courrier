@@ -16,10 +16,12 @@ class CreateCourriersTable extends Migration
         Schema::create('courriers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('reference');
-            $table->date('date_courrier');
-            $table->date('date_arrive');
-            $table->string('expediteur');
+            $table->date('date_courrier')->nullable();
+            $table->date('date_arrive')->nullable();
+            $table->string('expediteur')->nullable();
             $table->string('numero');
+            $table->string('destinataire');
+            $table->date('date_depart')->nullable();
             $table->string('type');
             $table->text('autre_instruction')->nullable();
             $table->timestamps();

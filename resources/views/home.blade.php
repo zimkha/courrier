@@ -96,11 +96,65 @@
 
 {{--    modal demande --}}
 
+
+<div class="modal fade" id="modal_addcourrierdepart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-lg" role="document"  style="max-width: 80%"> 
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Courrier de Départ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        <div class="modal-body m-3">
+          <form id="form_addcourrierdepart" class="form" enctype="multilpart/form-data" accept-charset="UTF-8">
+            <input type="hidden" id="id" name="id"> 
+            <input type="hidden" id="courrier_depart" name="courrier_depart">  
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>Destinataire</label>
+                    <input type="text" class="form-control" id="destinataire">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Numero</label>
+                    <input type="number" class="form-control" id="numero">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Date de depart</label>
+                    <input type="date" class="form-control" id="date_depart">
+                </div>
+            </div>
+           
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>Référence</label>
+                <input type="text" class="form-control" id="reference">
+              </div>
+        </div>
+           
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+              <button type="button" class="btn btn-primary" ng-click="addElement($event,'courrier')">Enregistrer</button>
+          </div>
+          </form>
+        </div>
+
+    </div>
+
+  </div>
+</div>
+
 <div class="modal fade" id="modal_addcourrier" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-lg" role="document"  style="max-width: 94%"> 
     <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Nouveau Courrier</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Courrier Arrive</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -109,7 +163,7 @@
 
                    <form id="form_addcourrier" class="form" enctype="multilpart/form-data" accept-charset="UTF-8">
                    <input type="hidden" id="id" name="id">   
-                 
+                  
                       <div class="card p-4 mt-20 animated fadeIn">
                       <div class="form-row mt-4">
                         <div class="col-md-12 col-sm-12 mb-3 uk-margin-sma
@@ -119,6 +173,7 @@
                             <input type="radio" value="0"  ng-click="DiseableEnableinput($event)"  name="radioBtnComposition" id="depart" class="uk-radio"> <span class="fsize-12 uk-margin-small-right">Départ</span>
                         </div>
                     </div>
+
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="form-group">
@@ -229,7 +284,7 @@
                               </div>
                           </div>
                       </div>
-                      <div class="modal-footer">
+                        <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                             <button type="button" class="btn btn-primary" ng-click="addElement($event,'courrier')">Enregistrer</button>
                         </div>
