@@ -61,7 +61,7 @@ class DatabaseTableSeeder extends Seeder
         foreach ($droite as $type) {
           // $item = ServiceDroite::where('name', 'like', '%'.$type['name'].'%');
           // if (!isset($item)) {
-            $item = new ServiceGauche();
+            $item = new ServiceDroite();
             $item->name = $type['name'];
             $item->save();          }
      // }

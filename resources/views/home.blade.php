@@ -140,7 +140,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-              <button type="button" class="btn btn-primary" ng-click="addElement($event,'courrier')">Enregistrer</button>
+              <button type="button" class="btn btn-primary" ng-click="addElement($event,'courrierdepart')">Enregistrer</button>
           </div>
           </form>
         </div>
@@ -164,7 +164,7 @@
                    <form id="form_addcourrier" class="form" enctype="multilpart/form-data" accept-charset="UTF-8">
                    <input type="hidden" id="id" name="id">   
                   
-                      <div class="card p-4 mt-20 animated fadeIn">
+                      <!-- <div class="card p-4 mt-20 animated fadeIn">
                       <div class="form-row mt-4">
                         <div class="col-md-12 col-sm-12 mb-3 uk-margin-sma
                         ll-top text-center text-md-center" id="etat">
@@ -172,7 +172,7 @@
                             <input type="radio" checked value="1" ng-click="DiseableEnableinput($event)"  name="radioBtnComposition"  id="arrive"  class="uk-radio true"> <span class="fsize-12 uk-margin-small-right">Arrivée</span>
                             <input type="radio" value="0"  ng-click="DiseableEnableinput($event)"  name="radioBtnComposition" id="depart" class="uk-radio"> <span class="fsize-12 uk-margin-small-right">Départ</span>
                         </div>
-                    </div>
+                    </div> -->
 
                           <div class="row">
                               <div class="col-md-6">
@@ -202,13 +202,13 @@
                             <div class="col-md-6">
                               <div class="form-group">
                                   <label>Référence</label>
-                                  <input type="text" class="form-control" id="reference">
+                                  <input type="text" class="form-control" id="reference_arrive">
                                 </div>
                           </div>
                               <div class="col-md-6">
                                   <div class="form-group">
                                       <label>Numero arrivée</label>
-                                      <input type="number" class="form-control"  id="numero">
+                                      <input type="number" class="form-control"  name="numero_arrive" id="numero_arrive">
                                   </div>
                               </div>
                               
@@ -277,13 +277,15 @@
                           </div>
                       </div>
                       <div class="row">
-                          <div class="col-lg-12">
+                        
+                          <div class="col-lg-12 ">
                             <div class="form-group">
                               <label> Autre Instructions</label>
                               <textarea class="form-control form-control-xm d-inline-block" id="autre_instruction"> </textarea>
                               </div>
                           </div>
-                      </div>
+                      
+                    </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                             <button type="button" class="btn btn-primary" ng-click="addElement($event,'courrier')">Enregistrer</button>

@@ -34,6 +34,8 @@ class CourrierType extends GraphQLType
           'services'               => ['type'  => Type::listOf(GraphQL::type('Service'))],
           'status_title'           =>  [ 'type' => Type::string()], 
           'type'                   =>  [ 'type' => Type::string()], 
+          'destinataire'           => [ 'type' => Type::string(),],
+          'date_depart'            => [ 'type' => Type::string(),],
 
 
 

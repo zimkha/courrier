@@ -116,20 +116,37 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr align="center">
+                                <th>Type Courrier</th>
                                 <th>Numero</th>
                                 <th>Reference</th>
                                 <th>Date arrivée</th>
-                                <th>Expediteur</th>
+                                <th>Date depart</th>
+                                <th>Exped / <span class="badge badge-sucess">Desti</span></th>
                                 <th>Statut</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr align="center" ng-repeat="item in courriers">
+                            <td>
+                                   <span ng-if="item.type == 1"  class="badge badge-info">Arrivée</span>
+                                    <span ng-if="item.type == 0" class="badge badge-info" >Départ</span>
+                                </td>
                                 <td>@{{ item.numero}}</td>
                                 <td>@{{ item.reference}}</td>
-                                <td>@{{ item.date_courrier }}</td>
-                                <td>@{{ item.expediteur }}</td>
+                                <td>
+                                   <span ng-if="item.type == 0"  class="badge badge-info">no date </span>
+                                    <span ng-if="item.type == 1" >@{{ item.date_arrive}}</span>
+                                </td>
+                                <td>
+                                   <span ng-if="item.type == 1"  class="badge badge-info">no date </span>
+                                    <span ng-if="item.type == 0" >@{{ item.date_depart}}</span>
+                                </td>
+                                <td>
+                                    <span ng-if="item.type == 1"  class="badge badge-primary">   @{{ item.expediteur }}</span>
+                                    <span ng-if="item.type == 0" class="badge badge-success">@{{ item.destinataire}}</span>
+                                
+                                </td>
                                 <td>
                                     <span ng-if="item.status == 0"  class="badge badge-danger">@{{ item.status_title}}</span>
                                     <span ng-if="item.status == 1" class="badge badge-warning">@{{ item.status_title}}</span>
@@ -137,7 +154,10 @@
                                 </td>
                                 <td class="text-center">
                                 <nav class="menu-leftToRight uk-flex uk-position-center ">
-                                  <a  class="menu-item uk-icon-button  border-0x btn btn-sm btn-success btn-circle text-white" title="Modifier le courrier"   ng-click="showModalUpdate('courrier',item.id)">
+                                  <a  class="menu-item uk-icon-button  border-0x btn btn-sm btn-success btn-circle text-white" title="Modifier le courrier" ng-if="item.type == 1"   ng-click="showModalUpdate('courrier',item.id)">
+                                    <i class="fas fa-reply" ></i>
+                                </a>
+                                <a  class="menu-item uk-icon-button  border-0x btn btn-sm btn-success btn-circle text-white" title="Modifier le courrier" ng-if="item.type == 0"   ng-click="showModalUpdate('courrierdepart',item.id)">
                                     <i class="fas fa-reply" ></i>
                                 </a>
                                 <button ng-if="item.status == 0" ng-click= "showModalPassToOne($event, item.id, 'Etes vous sûre de vouloir passer le courrier en statut en attente?')"  title="Passer en attente" class="menu-item btn btn-sm btn-primary btn-circle">

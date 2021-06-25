@@ -30,6 +30,8 @@ class CourrierQuery extends Query
             'date_arrive'            => [ 'type' => Type::string()],
             'autre_instruction'      => [ 'type' => Type::string()],
             'expediteur'             => [ 'type' => Type::string(),],
+            'destinataire'           => [ 'type' => Type::string(),],
+            'date_depart'            => [ 'type' => Type::string(),],
             'status'                 => [ 'type' => Type::int(),],
             'numero'                 => [ 'type' => Type::int(),],
             'created_at'             => [ 'type' => Type::string()],
@@ -122,7 +124,9 @@ class CourrierQuery extends Query
             'autre_instruction'        => $item->autre_instruction,
             'created_at'               => $item->created_at,
             'services'                 => $item->services,
-            'type'                     => $item->type
+            'type'                     => $item->type,
+            'destinataire'             => $item->destinataire,
+            'date_depart'              => $item->date_depart
         ];
       });
     }

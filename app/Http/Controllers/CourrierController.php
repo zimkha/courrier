@@ -27,10 +27,12 @@ class CourrierController extends Controller
                 Service::where('courrier_id', $request->id)->forceDelete();
               }
 
-             if($request->courrier_depart == true || $request->courrer_depart == 'true') {
+             
+             if($request->courrier_depart == true && $request->destinataire !=  null) {
+              // dd("je suis la");
                  if(empty($request->destinataire) || empty($request->numero) || empty($request->reference) || empty($request->date_depart)) {
                       $errors = "Veuillez remplire tous les champs du formulaire";
-                      throw new Exception($errors);
+                      throw new \Exception($errors);
                  }
                  $item->type = 0;
                  $item->reference = $request->reference;
@@ -42,6 +44,7 @@ class CourrierController extends Controller
 
              }
              else {
+             
               $services = json_decode($request->services);
               if($services == [] || sizeof($services) == 0 ) 
               {

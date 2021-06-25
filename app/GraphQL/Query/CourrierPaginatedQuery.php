@@ -33,7 +33,8 @@ class CourrierPaginatedQuery extends Query
           'autre_instruction'      => [ 'type' => Type::string()],
           'expediteur'             => [ 'type' => Type::string(),],
           'status'                 => [ 'type' => Type::int(),],
-
+          'destinataire'           => [ 'type' => Type::string(),],
+          'date_depart'            => [ 'type' => Type::string(),],
           'numero'                 => [ 'type' => Type::int(),],
           'created_at'             => [ 'type' => Type::string()],
           'created_at_fr'          => [ 'type' => Type::string()],
@@ -75,6 +76,14 @@ class CourrierPaginatedQuery extends Query
       if (isset($args['expediteur']))
       {
          $query = $query->where('expediteur',  'like' , '%'.$args['expediteur'].'%');
+      }
+      if (isset($args['destinataire']))
+      {
+         $query = $query->where('destinataire',  'like' , '%'.$args['destinataire'].'%');
+      }
+      if (isset($args['date_depart']))
+      {
+         $query = $query->where('date_depart',  '=' , $args['date_depart']);
       }
       if (isset($args['numero']))
       {

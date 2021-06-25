@@ -294,7 +294,7 @@ app.controller('BackEndCtl',function (Init,$location,$scope,$filter, $log,$q,$ro
 
             "roles"                         : ["id,name,guard_name,permissions{id,name,display_name,guard_name}", ""],
 
-            "courriers" : ["id,numero,reference,type,expediteur,autre_instruction,date_courrier,objet,date_arrive,status_title,status,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
+            "courriers" : ["id,numero,destinataire,reference,type,expediteur,autre_instruction,date_courrier,objet,date_arrive,date_depart,status_title,status,services{service_gauche_id,service_droite_id,service,service_gauche{id,name},service_droite{id,name}}", ""]
 
         };
 
@@ -1410,6 +1410,8 @@ $scope.getAllDashboard = function()
 
         var form = $('#form_add' + type);
 
+       
+
         var formdata=(window.FormData) ? ( new FormData(form[0])): null;
         var send_data=(formdata!==null) ? formdata : form.serialize();
       
@@ -1433,10 +1435,9 @@ $scope.getAllDashboard = function()
                 continuer = false;
             }
         }
-     
-      
-        else if( type == 'courrier' || type == 'courriers') {
-         if($("#courrier_depart")) {
+
+        else if(type == 'courrierdepart' ) {
+         
           if($("#date_depart").val() == '') {
             iziToast.error({
               title: "",
@@ -1484,8 +1485,14 @@ $scope.getAllDashboard = function()
           send_data.append('courrier_depart', true); 
           send_data.append('date_depart', depart_date);
 
-         }
-         else {
+         type = 'courrier';
+
+        }
+     
+      
+        else if( type == 'courrier' || type == 'courriers') {
+        
+        
           if($("#date_courrier").val() == '') {
             iziToast.error({
               title: "",
@@ -1529,11 +1536,12 @@ $scope.getAllDashboard = function()
              courrier_date = date_courrier.getFullYear() + '-' + month +'-' + jr;
           }
          
+          alert($("#numero_arrive").val())
           console.log($('#depart'), $('#arrive'), "voirr")
-          send_data.append('reference', $("#reference").val());
+          send_data.append('reference', $("#reference_arrive").val());
           send_data.append('objet',     $("#objet").val());
           send_data.append('expediteur', $("#expediteur").val());
-          send_data.append('numero',    $("#numero").val());
+          send_data.append('numero',    $("#numero_arrive").val());
           send_data.append('date_arrive', arrive_date);
           send_data.append('date_courrier',courrier_date);
           send_data.append('autre_instruction', $("#autre_instruction").val());
@@ -1552,10 +1560,10 @@ $scope.getAllDashboard = function()
             message: "Vous devez ajouter au moins une ligne d'instructions pour le courrier",
             position: 'topRight'
         });
-        continuer = false;
+           continuer = false;
          }
   
-         }
+         
          
         
         }
@@ -1753,10 +1761,7 @@ $scope.getAllDashboard = function()
                         $("#modal_addcourrierdepart").modal('hide');
                         $("#modal_addcourrier").modal('hide');
                         $scope.emptyForm('courrier')
-                        $("#reference").val('')
-                        $("#destinataire").val('')
-                        $("#date_depart").val('')
-                        $("#numero").val('')
+                       
                     }
 
 
@@ -2441,11 +2446,14 @@ $scope.getAllDashboard = function()
     $scope.assistedListe = false;
     $scope.showModalUpdate=function (type,itemId, forceChangeForm=false)
     {
+        type = 'courrier';
         reqwrite = type + "s" + "(id:"+ itemId + ")";
 
+      
         Init.getElement(reqwrite, listofrequests_assoc[type + "s"]).then(function(data)
         {
             var item = data[0];
+
             console.log("item item", item);
             $scope.itemUpdated = data[0];
             $scope.typeUpdated = type;
@@ -2456,7 +2464,9 @@ $scope.getAllDashboard = function()
             $scope.updatetype = type;
             $scope.updateelement = item;
 
-
+           if(item.type == 0) {
+             type = 'courrierdepart'
+           }
             $scope.showModalAdd(type, true);
 
             $scope.fromUpdate = true;
@@ -2481,13 +2491,22 @@ $scope.getAllDashboard = function()
 
             }
             else if(type.indexOf('courrier'!==-1 || type.indexOf('/')!==-1)) {
-              $("#id").val(item.id);
+              if(item.type == 0) {
+                
+                $('#id' ).val(item.id)
+                $('#destinataire' ).val(item.destinataire)
+                $('#reference' ).val(item.reference)
+                $('#date_depart' ).val(item.date_depart)
+                $('#numero' ).val(item.numero)
+              }
+              else {
+                $("#id").val(item.id);
               $('#objet' ).val(item.objet)
-              $('#numero' ).val(item.numero)
+              $('#numero_arrive' ).val(item.numero)
               $('#date_arrive' ).val(item.date_arrive)
               $('#date_courrier' ).val(item.date_courrier)
               $('#expediteur' ).val(item.expediteur)
-              $('#reference' ).val(item.reference)
+              $('#reference_arrive' ).val(item.reference)
               $('#autre_instruction').val(item.autre_instruction)
              console.log(item.type, "les donnees")
               if(item.type == 1 || item.type == '1') {
@@ -2526,6 +2545,8 @@ $scope.getAllDashboard = function()
              
                $scope.tableName = table_name;
                console.log("les donnes yepppppp", $scope.dataInTableService)
+              }
+              
             }
           
            
