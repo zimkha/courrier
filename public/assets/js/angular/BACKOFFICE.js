@@ -568,6 +568,7 @@ $scope.getAllDashboard = function()
                 + ($scope.courrierview ? ',courrier_id:' + $scope.courrierview_id : "" )
                 + ($('#searchoption_courrier').val() ? (',' + $('#searchoption_courrier').val() + ':"' + $('#searchoption_courrier').val() + '"') : "" )
                 + ($('#numero_courrier').val() ? ',numero:' + $('#numero_courrier').val() : "" )
+                + ($('#type_courrier').val() ? ',type:' + '"' + $('#type_courrier').val() + '"' : "" )
                 + ($('#reference_courrier').val() ? ',reference:' + '"' + $('#reference_courrier').val() + '"' : "" )
                 + ($('#expediteur_courrier').val() ? ',expediteur:' + '"' + $('#expediteur_courrier').val() + '"' : "" )
                 + ($('#created_at_start_listcourrier').val() ? ',created_at_start:' + '"' + $('#created_at_start_listcourrier').val() + '"' : "" )
@@ -1328,7 +1329,6 @@ $scope.getAllDashboard = function()
 
     $scope.changeStatut = function(e, type)
     {
-        alert("nieuwal fii");
         var form = $('#form_addchstat');
 
         var send_data = {id: $scope.chstat.id, status:$scope.chstat.statut};
@@ -1536,7 +1536,7 @@ $scope.getAllDashboard = function()
              courrier_date = date_courrier.getFullYear() + '-' + month +'-' + jr;
           }
          
-          alert($("#numero_arrive").val())
+         
           console.log($('#depart'), $('#arrive'), "voirr")
           send_data.append('reference', $("#reference_arrive").val());
           send_data.append('objet',     $("#objet").val());

@@ -68,7 +68,7 @@
                         
                         <div class="col-md-6 mt-0">
                         <label>Type de Courrier</label>
-                            <select class="form-control" id="searchoptiontype_courrier" ng-model="searchoptiontype_courrier" name="searchoptiontype">
+                            <select class="form-control" id="type_courrier" ng-model="type_courrier" name="type_courrier">
                                 <option value="1">Arrive</option>
                                 <option value="0">Depart</option>
                             </select>

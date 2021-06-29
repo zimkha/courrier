@@ -20,7 +20,7 @@ class CreateCourriersTable extends Migration
             $table->date('date_arrive')->nullable();
             $table->string('expediteur')->nullable();
             $table->string('numero');
-            $table->string('destinataire');
+            $table->string('destinataire')->nullable();
             $table->date('date_depart')->nullable();
             $table->string('type');
             $table->text('autre_instruction')->nullable();
